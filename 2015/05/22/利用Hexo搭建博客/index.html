@@ -4,17 +4,29 @@
 <head>
   <meta charset="utf-8">
   
-  <title>大欢的博客</title>
+  <title>利用Hexo搭建博客 | 大欢的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="大欢的博客">
-<meta property="og:url" content="http://lyjh.net/index.html">
+  <meta name="description" content="以前用Octopress搭过博客，折腾了好久才弄出来，当时看到那巨难看的默认主题，繁琐的操作，一点写东西的欲望都没了。
+一次逛微博，看见了Hexo。尝试了一下，真的很好用哦。
+下面记录下流程：作为一个程序员，你的电脑一定装了git,Homebrew了吧？如果没有，去装一下吧~Hexo是基于node.js的,所以先安装node
+安装node1brew install node
+最新版的node.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用Hexo搭建博客">
+<meta property="og:url" content="http://lyjh.net/2015/05/22/利用Hexo搭建博客/index.html">
 <meta property="og:site_name" content="大欢的博客">
-<meta property="og:description">
+<meta property="og:description" content="以前用Octopress搭过博客，折腾了好久才弄出来，当时看到那巨难看的默认主题，繁琐的操作，一点写东西的欲望都没了。
+一次逛微博，看见了Hexo。尝试了一下，真的很好用哦。
+下面记录下流程：作为一个程序员，你的电脑一定装了git,Homebrew了吧？如果没有，去装一下吧~Hexo是基于node.js的,所以先安装node
+安装node1brew install node
+最新版的node.js">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="大欢的博客">
-<meta name="twitter:description">
+<meta name="twitter:title" content="利用Hexo搭建博客">
+<meta name="twitter:description" content="以前用Octopress搭过博客，折腾了好久才弄出来，当时看到那巨难看的默认主题，繁琐的操作，一点写东西的欲望都没了。
+一次逛微博，看见了Hexo。尝试了一下，真的很好用哦。
+下面记录下流程：作为一个程序员，你的电脑一定装了git,Homebrew了吧？如果没有，去装一下吧~Hexo是基于node.js的,所以先安装node
+安装node1brew install node
+最新版的node.js">
   
     <link rel="alternative" href="/atom.xml" title="大欢的博客" type="application/atom+xml">
   
@@ -72,9 +84,7 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main">
-  
-    <article id="post-利用Hexo搭建博客" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-利用Hexo搭建博客" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/05/22/利用Hexo搭建博客/" class="article-date">
   <time datetime="2015-05-22T15:44:55.000Z" itemprop="datePublished">2015-05-22</time>
@@ -87,8 +97,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/22/利用Hexo搭建博客/">利用Hexo搭建博客</a>
+    <h1 class="article-title" itemprop="name">
+      利用Hexo搭建博客
     </h1>
   
 
@@ -146,118 +156,24 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-Alcatraz" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/05/20/Alcatraz/" class="article-date">
-  <time datetime="2015-05-20T04:48:02.000Z" itemprop="datePublished">2015-05-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/技术文章/">技术文章</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/20/Alcatraz/">Alcatraz</a>
-    </h1>
+    <a href="/2015/05/20/Alcatraz/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">Alcatraz</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Alcatraz_-_Xcode插件管理"><a href="http://alcatraz.io" target="_blank" rel="external">Alcatraz</a> - Xcode插件管理</h1><h2 id="说明">说明</h2><p>Alcatraz是一个管理Xcode开源包的,你可以用它查找安装你想要的插件，模板以及配色方案，而你无需手动克隆他们，它像Xcode的一部分。</p>
-<h2 id="安装">安装</h2><pre><code>curl -fsSL http<span class="variable">s:</span>//raw.githubusercontent.<span class="keyword">com</span>/supermarin/Alcatraz/master/Scripts/install.<span class="keyword">sh</span> | <span class="keyword">sh</span>
-</code></pre><p>Alcatraz只支持OSX 10.9+ Xcode5+</p>
-<h2 id="卸载">卸载</h2><p>删除插件</p>
-<pre><code>rm -rf ~<span class="regexp">/Library/</span>Application\ Support<span class="regexp">/Developer/</span>Shared<span class="regexp">/Xcode/</span>Plug-ins<span class="regexp">/Alcatraz.xcplugin</span>
-</code></pre><p>删除Alcatraz</p>
-<pre><code>rm -rf ~/<span class="keyword">Library</span>/Application\ Support/Alcatraz
-</code></pre><h2 id="备注">备注</h2><p>安装完Alcatraz需重启Xcode。<br>如果在Xcode -&gt; Window下，仍然找不到 Package Manager，请在Xcode选项中点QuitCode关闭。再次打开Xcode.</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://lyjh.net/2015/05/20/Alcatraz/" data-id="ci9zs5asz0003mjwqjq74l0mx" class="article-share-link" data-share="baidu">分享到</a>
-      
-
-      
-        <a href="http://lyjh.net/2015/05/20/Alcatraz/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/神器/">神器</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
 
 
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/05/19/hello-world/" class="article-date">
-  <time datetime="2015-05-19T11:07:32.000Z" itemprop="datePublished">2015-05-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/19/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://lyjh.net/2015/05/19/hello-world/" data-id="ci9zs5ast0002mjwq5rs7nlpo" class="article-share-link" data-share="baidu">分享到</a>
-      
-
-      
-        <a href="http://lyjh.net/2015/05/19/hello-world/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-  
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="2015/05/22/利用Hexo搭建博客/" data-title="利用Hexo搭建博客" data-url="http://lyjh.net/2015/05/22/利用Hexo搭建博客/"></div>
+  </section>
 </section>
       
       <aside id="sidebar">
