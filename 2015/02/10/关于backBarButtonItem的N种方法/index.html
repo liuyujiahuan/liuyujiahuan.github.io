@@ -4,17 +4,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>大欢的博客</title>
+  <title>关于backBarButtonItem的N种方法 | 大欢的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="大欢的博客">
-<meta property="og:url" content="http://lyjh.net/index.html">
+  <meta name="description" content="替换返回按钮的文字很多app的要求所有的返回按钮的title都是“返回”，如果上一层题目文字太多，下一层的返回按钮文字就会显示不完全，而且这样可以使软件显得整洁。
+方法一：最普通的想法，A界面的navigationItem.backBarButtonItem修改的是B（A的下一级）界面的返回按钮，所以可以写一个BaseViewController，让所有的UIViewController继承它，像">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于backBarButtonItem的N种方法">
+<meta property="og:url" content="http://lyjh.net/2015/02/10/关于backBarButtonItem的N种方法/index.html">
 <meta property="og:site_name" content="大欢的博客">
-<meta property="og:description">
+<meta property="og:description" content="替换返回按钮的文字很多app的要求所有的返回按钮的title都是“返回”，如果上一层题目文字太多，下一层的返回按钮文字就会显示不完全，而且这样可以使软件显得整洁。
+方法一：最普通的想法，A界面的navigationItem.backBarButtonItem修改的是B（A的下一级）界面的返回按钮，所以可以写一个BaseViewController，让所有的UIViewController继承它，像">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="大欢的博客">
-<meta name="twitter:description">
+<meta name="twitter:title" content="关于backBarButtonItem的N种方法">
+<meta name="twitter:description" content="替换返回按钮的文字很多app的要求所有的返回按钮的title都是“返回”，如果上一层题目文字太多，下一层的返回按钮文字就会显示不完全，而且这样可以使软件显得整洁。
+方法一：最普通的想法，A界面的navigationItem.backBarButtonItem修改的是B（A的下一级）界面的返回按钮，所以可以写一个BaseViewController，让所有的UIViewController继承它，像">
   
     <link rel="alternative" href="/atom.xml" title="大欢的博客" type="application/atom+xml">
   
@@ -72,9 +75,7 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main">
-  
-    <article id="post-关于backBarButtonItem的N种方法" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-关于backBarButtonItem的N种方法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/02/10/关于backBarButtonItem的N种方法/" class="article-date">
   <time datetime="2015-02-10T04:48:02.000Z" itemprop="datePublished">2015-02-10</time>
@@ -91,8 +92,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/02/10/关于backBarButtonItem的N种方法/">关于backBarButtonItem的N种方法</a>
+    <h1 class="article-title" itemprop="name">
+      关于backBarButtonItem的N种方法
     </h1>
   
 
@@ -132,153 +133,24 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-Xcode插件" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/11/06/Xcode插件/" class="article-date">
-  <time datetime="2014-11-06T04:48:02.000Z" itemprop="datePublished">2014-11-06</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/技术文章/">技术文章</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/11/06/Xcode插件/">Xcode插件</a>
-    </h1>
+    <a href="/2014/11/06/Xcode插件/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">Xcode插件</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Xcode插件管理神器_——_Alcatraz">Xcode插件管理神器 —— <a href="http://alcatraz.io" target="_blank" rel="external">Alcatraz</a></h2><h3 id="说明">说明</h3><p>Alcatraz是一个管理Xcode开源包的,你可以用它查找安装你想要的插件，模板以及配色方案，而你无需手动克隆他们，它像Xcode的一部分。</p>
-<h3 id="安装">安装</h3><pre><code>curl -fsSL http<span class="variable">s:</span>//raw.githubusercontent.<span class="keyword">com</span>/supermarin/Alcatraz/master/Scripts/install.<span class="keyword">sh</span> | <span class="keyword">sh</span>
-</code></pre><p>Alcatraz只支持OSX 10.9+ Xcode5+</p>
-<h3 id="卸载">卸载</h3><p>删除插件</p>
-<pre><code>rm -rf ~<span class="regexp">/Library/</span>Application\ Support<span class="regexp">/Developer/</span>Shared<span class="regexp">/Xcode/</span>Plug-ins<span class="regexp">/Alcatraz.xcplugin</span>
-</code></pre><p>删除Alcatraz</p>
-<pre><code>rm -rf ~/<span class="keyword">Library</span>/Application\ Support/Alcatraz
-</code></pre><h3 id="备注">备注</h3><p>安装完Alcatraz需重启Xcode。<br>如果在Xcode -&gt; Window下，仍然找不到 Package Manager，请在Xcode选项中点QuitCode关闭。再次打开Xcode.</p>
-<h2 id="猫神的注释神器_——_VVDocumenter-Xcode">猫神的注释神器 —— <a href="https://github.com/onevcat/VVDocumenter-Xcode" target="_blank" rel="external">VVDocumenter-Xcode</a></h2><h3 id="说明-1">说明</h3><p>开发时写注释是很重要的，经常写注释说明你是个负责任的工程师。在方法上一行，点击三下 <code>///</code>便可自动根据方法参数生成注释。值得一提的是，它跟<a href="http://blog.devtang.com/blog/2012/02/01/use-appledoc-to-generate-xcode-doc/" target="_blank" rel="external">appleDoc</a>简直是绝配,appledoc所生成的注释API文档与苹果类库的API文档保持一致.</p>
-<h2 id="图片提示神器_——_KSImageNamed-Xcode">图片提示神器 —— <a href="https://github.com/ksuther/KSImageNamed-Xcode" target="_blank" rel="external">KSImageNamed-Xcode</a></h2><h3 id="说明-2">说明</h3><p>当我们输入[UIImage imageNamed:]自动弹出提示图片，选择图片回车就可以。省去了去图片库找图片复制文件名，再回到开发界面的过程。</p>
-<h2 id="三方库管理神器_——_cocoapods">三方库管理神器 —— <a href="https://github.com/kattrali/cocoapods-xcode-plugin" target="_blank" rel="external">cocoapods</a></h2><h3 id="说明-3">说明</h3><p>简单的命令行就可以查找，添加，更新，删除三方依赖库。主要是不用配置。（用了几个项目，但给同事导源码，他们总是打不开或是报错，慢慢的简单的项目就不用他了）</p>
-<h2 id="代码自动补齐_——_FuzzyAutocompletePlugin">代码自动补齐 —— <a href="https://github.com/FuzzyAutocomplete/FuzzyAutocompletePlugin" target="_blank" rel="external">FuzzyAutocompletePlugin</a></h2><h3 id="说明-4">说明</h3><p>个人觉得不咋好用，尽管很多人推荐。装了它，打一个字母出现好多提示，很不习惯。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://lyjh.net/2014/11/06/Xcode插件/" data-id="ciawm6enz000aa7wqthxbnjoi" class="article-share-link" data-share="baidu">分享到</a>
-      
-
-      
-        <a href="http://lyjh.net/2014/11/06/Xcode插件/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/神器/">神器</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
 
 
-  
-    <article id="post-利用Hexo搭建博客" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/09/22/利用Hexo搭建博客/" class="article-date">
-  <time datetime="2014-09-22T15:44:55.000Z" itemprop="datePublished">2014-09-22</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/技术文章/">技术文章</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/利用Hexo搭建博客/">利用Hexo搭建博客</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以前用<code>Octopress</code>搭过博客，折腾了好久才弄出来，当时看到那巨难看的默认主题，繁琐的操作，一点写东西的欲望都没了。</p>
-<p>一次逛微博，看见了<code>Hexo</code>。尝试了一下，真的很好用哦。</p>
-<p>下面记录下流程：</p>
-<h3 id="安装node">安装<code>node</code></h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew <span class="keyword">install</span> node</span><br></pre></td></tr></table></figure>
-<p>最新版的<code>node.js</code>已经集成了<code>npm</code>包。所以只需验证一下<code>node</code>,<code>npm</code>是否安装成功。</p>
-<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line"><span class="built_in">npm</span> -v</span><br></pre></td></tr></table></figure>
-<h3 id="安装Hexo">安装<code>Hexo</code></h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install</span> hexo -g</span><br></pre></td></tr></table></figure>
-<h3 id="初始化">初始化</h3><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init blog <span class="list">(我起的文件夹名叫blog,你可以随意替换)</span></span><br></pre></td></tr></table></figure>
-<h3 id="生成静态页面">生成静态页面</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> 到你init文件夹下 例如：</span><br><span class="line"><span class="keyword">cd</span> ~/blog </span><br><span class="line"></span><br><span class="line">hexo <span class="keyword">generate</span></span><br></pre></td></tr></table></figure>
-<h3 id="预览">预览</h3><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="keyword">server</span></span><br></pre></td></tr></table></figure>
-<p>浏览器输入 <a href="http://localhost:4000" target="_blank" rel="external">http://localhost:4000</a> 就可以看到效果。</p>
-<p>预览完了可以<code>ctrl</code> + <code>c</code> 关闭本地服务。</p>
-<h3 id="开始写文章">开始写文章</h3><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="keyword">new</span> <span class="string">"article"</span></span><br></pre></td></tr></table></figure>
-<p>你可以在 <code>~\blog\source\_post</code> 下找到 <code>article.md</code> 这个文件，打开它开始用<code>MarkDown</code>写东西。</p>
-<p>你可以像这样给它设置题目，日期，分类，标签</p>
-<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">title: "Alcatraz"</span><br><span class="line">date: 2015-05-20 12:48:02</span><br><span class="line">categories: </span><br><span class="line"><span class="bullet">- </span>技术文章</span><br><span class="line">tags:</span><br><span class="line"><span class="header">- 神器</span><br><span class="line">---</span></span><br></pre></td></tr></table></figure>
-<h3 id="自定义页面">自定义页面</h3><p>开一个blog至少要向大家介绍下自己。你需要个<code>关于</code>界面。</p>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="keyword">new</span> page <span class="string">"about"</span></span><br></pre></td></tr></table></figure>
-<p>然后直接去source下的about文件夹,编辑index.md就可以了。<br>千万别忘了修改在themes下的具体主题下的_config.yml文件。</p>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">menu:</span></span><br><span class="line">	首页: /</span><br><span class="line">	归档: /archives</span><br><span class="line">	关于: /about</span><br><span class="line"><span class="label">rss:</span> /atom.xml</span><br></pre></td></tr></table></figure>
-<h3 id="发布">发布</h3><p>东西写完了，可以发布了！<br>发布前先配置一下博客，找到并打开这个 ~/blog/_config.yml,<br>至于title,description之类的就不多说了看心情写吧~<br>主要是这段别忘了加</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">	<span class="attribute">type</span>: git</span><br><span class="line">	<span class="attribute">repository</span>: git<span class="variable">@github</span>.<span class="attribute">com</span>:xxx/xxx.github.io.git</span><br><span class="line">	<span class="attribute">branch</span>: master</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">hexo</span> deploy</span><br></pre></td></tr></table></figure>
-<p>如果报错：</p>
-<figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="built_in">ERROR</span> Deployer <span class="keyword">not</span> found: github</span><br></pre></td></tr></table></figure>
-<p>那就先安装</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="operator"><span class="keyword">install</span> hexo-deployer-git <span class="comment">--save</span></span></span><br></pre></td></tr></table></figure>
-<p>再执行<code>hexo deploy</code></p>
-<p>OK! 到这里博客网站成功建成！</p>
-<h2 id="后记">后记</h2><p>Hexo是基于node.js的,所以先安装node。</p>
-<p>如果嫌网页加载慢，上传时把关于google字体的代码注掉。</p>
-<p>至于加主题，加评论，加挂件啥的就不说了，</p>
-<p>用到了去google一下。这里只记录hexo安装,推荐hexo给大家。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://lyjh.net/2014/09/22/利用Hexo搭建博客/" data-id="ciawm6enn0001a7wqu0qw1htt" class="article-share-link" data-share="baidu">分享到</a>
-      
-
-      
-        <a href="http://lyjh.net/2014/09/22/利用Hexo搭建博客/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/神器/">神器</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-  
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="2015/02/10/关于backBarButtonItem的N种方法/" data-title="关于backBarButtonItem的N种方法" data-url="http://lyjh.net/2015/02/10/关于backBarButtonItem的N种方法/"></div>
+  </section>
 </section>
       
       <aside id="sidebar">
