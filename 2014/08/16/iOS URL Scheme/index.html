@@ -1,0 +1,358 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS URL Scheme | 大欢的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="需求：公司要求在手机浏览器上，打开一个app宣传页。点击网页上的链接，如果手机上已经安装了该app,就打开。没安装，就提示下载（企业级账号发布的app）。
+于是抽空研究了一下URL Scheme.
+从浏览器跳转到app通过URL Scheme的方式启动应用和参数的传递，要先创建URL Scheme。
+
+可以在info.plist里手动添加URL types，URL identifier，URL S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS URL Scheme">
+<meta property="og:url" content="http://lyjh.net/2014/08/16/iOS URL Scheme/index.html">
+<meta property="og:site_name" content="大欢的博客">
+<meta property="og:description" content="需求：公司要求在手机浏览器上，打开一个app宣传页。点击网页上的链接，如果手机上已经安装了该app,就打开。没安装，就提示下载（企业级账号发布的app）。
+于是抽空研究了一下URL Scheme.
+从浏览器跳转到app通过URL Scheme的方式启动应用和参数的传递，要先创建URL Scheme。
+
+可以在info.plist里手动添加URL types，URL identifier，URL S">
+<meta property="og:image" content="/images/URL_Scheme图1.png">
+<meta property="og:image" content="/images/URL_Scheme图2.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS URL Scheme">
+<meta name="twitter:description" content="需求：公司要求在手机浏览器上，打开一个app宣传页。点击网页上的链接，如果手机上已经安装了该app,就打开。没安装，就提示下载（企业级账号发布的app）。
+于是抽空研究了一下URL Scheme.
+从浏览器跳转到app通过URL Scheme的方式启动应用和参数的传递，要先创建URL Scheme。
+
+可以在info.plist里手动添加URL types，URL identifier，URL S">
+  
+    <link rel="alternative" href="/atom.xml" title="大欢的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+</head>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">大欢的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">iOS攻城狮</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value="" class="search-form-submit">
+          <input name=tn type=hidden value="bds">
+          <input name=cl type=hidden value="3">
+          <input name=ct type=hidden value="2097152">
+          <input type="hidden" name="si" value="lyjh.net">
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="outer">
+      <section id="main"><article id="post-iOS URL Scheme" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/08/16/iOS URL Scheme/" class="article-date">
+  <time datetime="2014-08-16T15:44:55.000Z" itemprop="datePublished">2014-08-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/技术文章/">技术文章</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS URL Scheme
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="需求：">需求：</h3><p>公司要求在手机浏览器上，打开一个app宣传页。点击网页上的链接，如果手机上已经安装了该app,就打开。没安装，就提示下载（企业级账号发布的app）。</p>
+<p>于是抽空研究了一下<code>URL Scheme</code>.</p>
+<h3 id="从浏览器跳转到app">从浏览器跳转到app</h3><p>通过<code>URL Scheme</code>的方式启动应用和参数的传递，要先创建<code>URL Scheme</code>。</p>
+<ul>
+<li>可以在<code>info.plist</code>里手动添加<code>URL types</code>，<code>URL identifier</code>，<code>URL Schemes</code>像这样：</li>
+</ul>
+<p><img src="/images/URL_Scheme图1.png" alt="我是图1" title="Optional title"></p>
+<ul>
+<li>也可以在<code>info</code>标签下的 <code>URL Types</code> 下，直接填写。</li>
+</ul>
+<p><img src="/images/URL_Scheme图2.png" alt="我是图2" title="Optional title"></p>
+<p>在<code>Safari</code>中直接在浏览器的地址栏中输入<code>dsny://</code>,就可以跳转到app里了。</p>
+<blockquote>
+<p>注意：如果<code>Bundle Identifier</code> 和 设置的 <code>URL identifier</code> 不一致，系统会弹出提示框，询问是否跳转。</p>
+</blockquote>
+<h3 id="从一个app跳转到另一个app">从一个app跳转到另一个app</h3><p>还记得这样的跳转吧,它可以从当前app调到<code>iMessage</code>，<code>sms://</code>其实就是<code>iMessage</code>的<code>URLScheme</code>：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr_selector">[[UIApplication sharedApplication]</span> <span class="rule"><span class="attribute">openURL</span>:<span class="value">[NSURL URLWithString:@<span class="string">"sms://1851826****"</span>]]</span></span>;</span><br></pre></td></tr></table></figure>
+<p>同样的道理，在一个app里写入如下的代码，就可以跳转到刚才设置URLScheme的app里了：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr_selector">[[UIApplication sharedApplication]</span> <span class="rule"><span class="attribute">openURL</span>:<span class="value">[NSURL URLWithString:@<span class="string">"dsny://"</span>]]</span></span>;</span><br></pre></td></tr></table></figure>
+<p>如果app之间跳转还需要通信的话，参数可以这样传递：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr_selector">[[UIApplication sharedApplication]</span> <span class="rule"><span class="attribute">openURL</span>:<span class="value">[NSURL URLWithString:@<span class="string">"dsny://?name=123&amp;sex=2"</span>]]</span></span>;</span><br></pre></td></tr></table></figure>
+<p>可以这样接收：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application openURL:(<span class="built_in">NSURL</span> *)url sourceApplication:(<span class="built_in">NSString</span> *)sourceApplication annotation:(<span class="keyword">id</span>)annotation</span><br><span class="line">&#123;</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"调用的应用程序的Bundle ID是: %@"</span>, sourceApplication);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"URL scheme:%@"</span>, [url scheme]);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"URL query: %@"</span>, [url query]);</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再扩展想一下，我们经常写的跳转到微信，微博授权分享，不就是把三方给我们提供的AppKey写到URLScheme。我们调用sdk方法使app跳到微信，微信就可以通过AppKey顺利跳回我们的app。</p>
+<h3 id="从一个app跳转到系统设置的子页面">从一个app跳转到系统设置的子页面</h3><p>stackoverflow上找到的：</p>
+<ul>
+<li>prefs:root=General&amp;path=About</li>
+<li>prefs:root=General&amp;path=ACCESSIBILITY</li>
+<li>prefs:root=AIRPLANE_MODE</li>
+<li>prefs:root=General&amp;path=AUTOLOCK</li>
+<li>prefs:root=General&amp;path=USAGE/CELLULAR_USAGE</li>
+<li>prefs:root=Brightness</li>
+<li>prefs:root=General&amp;path=Bluetooth</li>
+<li>prefs:root=General&amp;path=DATE_AND_TIME</li>
+<li>prefs:root=FACETIME</li>
+<li>prefs:root=General</li>
+<li>prefs:root=General&amp;path=Keyboard</li>
+</ul>
+<p>简单的列举几个，没有的子页面可以去这里找。<a href="http://stackoverflow.com/questions/8246070/ios-launching-settings-restrictions-url-scheme" target="_blank" rel="external">更多</a></p>
+<p>添加这段代码：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr_selector">[[UIApplication sharedApplication]</span> <span class="rule"><span class="attribute">openURL</span>:<span class="value">[NSURL URLWithString:@<span class="string">"prefs:root=WIFI"</span>]]</span></span>;</span><br></pre></td></tr></table></figure>
+<p>这样还不够，还需创建个app的<code>URL Scheme</code>，只填写prefs就可以了。<br>至于为什么这么写，暂时还没有研究。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://lyjh.net/2014/08/16/iOS URL Scheme/" data-id="cib1rs8al0000mbs6xlk8fd9y" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="http://lyjh.net/2014/08/16/iOS URL Scheme/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/URL-Scheme/">URL Scheme</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/10/08/iOS 8.0获取地理位置信息/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          兼容iOS 8.0以上获取地理位置信息
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/07/22/利用Hexo搭建博客/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">利用Hexo搭建博客</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="2014/08/16/iOS URL Scheme/" data-title="iOS URL Scheme" data-url="http://lyjh.net/2014/08/16/iOS URL Scheme/"></div>
+  </section>
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术文章/">技术文章</a><span class="category-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreLocation/">CoreLocation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIKit/">UIKit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/URL-Scheme/">URL Scheme</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/神器/">神器</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CoreLocation/" style="font-size: 10px;">CoreLocation</a><a href="/tags/UIKit/" style="font-size: 10px;">UIKit</a><a href="/tags/URL-Scheme/" style="font-size: 10px;">URL Scheme</a><a href="/tags/神器/" style="font-size: 20px;">神器</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/02/10/关于backBarButtonItem的N种方法/">关于backBarButtonItem的N种方法</a>
+          </li>
+        
+          <li>
+            <a href="/2014/11/06/Xcode插件/">Xcode插件</a>
+          </li>
+        
+          <li>
+            <a href="/2014/10/08/iOS 8.0获取地理位置信息/">兼容iOS 8.0以上获取地理位置信息</a>
+          </li>
+        
+          <li>
+            <a href="/2014/08/16/iOS URL Scheme/">iOS URL Scheme</a>
+          </li>
+        
+          <li>
+            <a href="/2014/07/22/利用Hexo搭建博客/">利用Hexo搭建博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://weibo.com/liuyujiahuan" target="_blank">我的微博</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 liuyujiahuan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"lyjh"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+</div>
+</body>
+</html>
