@@ -74,6 +74,104 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-Git使用教程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/06/Git使用教程/" class="article-date">
+  <time datetime="2015-09-06T15:44:55.000Z" itemprop="datePublished">2015-09-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Git使用教程/">Git使用教程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/06/Git使用教程/">Git使用教程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Git是一个开源的分布式版本控制系统，用以有效、高速的处理从很小到非常大的项目版本管理。</p>
+<h2 id="安装Git">安装Git</h2><p>1.方法一：<br>安装homebrew，然后通过<code>homebrew</code>安装Git。</p>
+<p>第一步：在终端输入如下命令安装<code>homebrew</code></p>
+<figure class="highlight ruby"><figcaption><span>-e "$(curl -fsSL</span><a href="https://raw.githubusercontent.com/Homebrew/install/master/install)" ```"="" target="_blank" rel="external">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">第二步：执行下面的命令，通过<span class="constant">Homebrew</span>安装<span class="constant">Git</span>。</span><br><span class="line"></span><br><span class="line"><span class="string">``</span><span class="string">`$ brew install git</span></span><br></pre></td></tr></table></figure>
+<p>具体方法请参考<code>homebrew</code>的文档：<a href="http://brew.sh/" target="_blank" rel="external">http://brew.sh/</a></p>
+<blockquote>
+<p>Homebrew 用Ruby语言开发，支持千余种开源软件在 Mac OS X 中的部署和管理。</p>
+</blockquote>
+<p>2.方法二：</p>
+<p>直接去git官网下载就好 <a href="http://git-scm.com/downloads/" target="_blank" rel="external">http://git-scm.com/downloads/</a></p>
+<h2 id="使用Git">使用Git</h2><p>通常使用git创建版本库，又叫仓库。<br>第一步：在合适的地方创建一个目录。</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> firstgit</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">cd</span> firstgit</span><br></pre></td></tr></table></figure>
+<p>第二步：用 <code>git init</code> 命令将这个目录变成可以使用git管理的仓库。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git init</span><br><span class="line">Initialized empty Git repository <span class="keyword">in</span> <span class="regexp">/Users/</span>dahuan<span class="regexp">/Desktop/</span>MultithreadingDemo<span class="regexp">/.git/</span></span><br></pre></td></tr></table></figure>
+<p>执行 <code>ls -a</code> 会发现目录里多<code>.git</code>文件，这个就是git用来跟踪管理的文件。</p>
+<p>第三步：在这个目录下创建个文件，并输入一些内容。</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>vi readme.txt</span><br></pre></td></tr></table></figure>
+<p>第四步：用命令<code>git add</code>告诉Git，把文件添加到仓库</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="keyword">add</span> readme.txt</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果要添加的文件太多可以这么写 git add -a </p>
+</blockquote>
+<p>第五步：用命令<code>git commit</code>把文件提交到仓库</p>
+<figure class="highlight smalltalk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="char">$ </span>git commit -m <span class="comment">"wrote a readme file"</span></span><br></pre></td></tr></table></figure>
+<p>至此我们已经成功地添加并提交了一个readme.txt文件到本地仓库。</p>
+<h2 id="将本地仓库提交到远程仓库github">将本地仓库提交到远程仓库github</h2><p>完全可以自己搭建一台运行Git的服务器，不过现阶段，为了学Git先搭个服务器绝对是小题大作。好在这个世界上有个叫GitHub的神奇的网站，从名字就可以看出，这个网站就是提供Git仓库托管服务的，所以，只要注册一个GitHub账号，就可以免费获得Git远程仓库。</p>
+<p>在继续阅读后续内容前，请自行注册GitHub账号。由于你的本地Git仓库和GitHub仓库之间的传输是通过SSH加密的，所以，需要一点设置：</p>
+<p>创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，如果已经有了，可直接跳到下一步。如果没有，打开Shell（Windows下打开Git Bash），创建SSH Key：</p>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -<span class="keyword">C</span> <span class="string">"xxxxx@xxxxx.com"</span></span><br></pre></td></tr></table></figure>
+<p>查看你的public key</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ~<span class="regexp">/.ssh/id</span>_rsa.pub</span><br></pre></td></tr></table></figure>
+<p>登陆GitHub，打开“Account settings”，然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容。点“Add Key”，你就应该看到已经添加的Key。为了验证是否成功。</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>ssh -<span class="constant">T </span>git<span class="variable">@github</span>.com</span><br></pre></td></tr></table></figure>
+<p>如果是第一次的会提示是否continue，输入yes就会看到：You’ve successfully authenticated, but GitHub does not provide shell access 。这就表示已成功连上github。</p>
+<p>接下来我们要做的就是把本地仓库传到github上去，在此之前还需要设置username和email，因为github每次commit都会记录他们。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user<span class="class">.name</span> <span class="string">"your name"</span></span><br><span class="line">$ git config --global user<span class="class">.email</span> <span class="string">"your_email@youremail.com"</span></span><br></pre></td></tr></table></figure>
+<p>为什么GitHub需要SSH Key呢？因为GitHub需要识别出你推送的提交确实是你推送的，而不是别人冒充的，而Git支持SSH协议，所以，GitHub只要知道了你的公钥，就可以确认只有你自己才能推送。</p>
+<p>登陆GitHub，然后，在右上角找到“Create a new repo”按钮，创建一个新的仓库。<br>在Repository name填入firstgit，其他保持默认设置，点击“Create repository”按钮，就成功地创建了一个新的Git仓库。</p>
+<p>现在，我们根据GitHub的提示，在本地的firstgit仓库下运行命令：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>git remote add origin git<span class="variable">@github</span>.xxxx/xxxx.git</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>origin是默认的主机名</p>
+<p>git@github.xxxx/xxxx.git是网址</p>
+</blockquote>
+<p>这样我们就在本地.git上设置了远程主机。</p>
+<p>我们使用下面的命令推送本地仓库至远程仓库：</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="keyword">push</span> -u origin master</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>master 是本地主机的默认分支名。</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://lyjh.net/2015/09/06/Git使用教程/" data-id="cie87i7rb0018j8wqge7rl7y2" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="http://lyjh.net/2015/09/06/Git使用教程/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/教程/">教程</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-课程demo" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/09/01/课程demo/" class="article-date">
@@ -107,7 +205,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/09/01/课程demo/" data-id="cie7uwrjd0001nywqy9lb3nrt" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/09/01/课程demo/" data-id="cie87i7q80001j8wqjleit9qk" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -178,7 +276,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/04/06/聊聊UIWebView/" data-id="cie7uwrjk0006nywq0e2ynmg7" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/04/06/聊聊UIWebView/" data-id="cie87i7qh0006j8wqo9a5wxc2" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -236,7 +334,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/03/12/iOS Core Bluetooth/" data-id="cie7uwrjx000tnywq8zwu358s" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/03/12/iOS Core Bluetooth/" data-id="cie87i7qw000tj8wq1v5aq5oe" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -298,7 +396,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/02/10/关于backBarButtonItem的N种方法/" data-id="cie7uwrjq000fnywqjzepaw61" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/02/10/关于backBarButtonItem的N种方法/" data-id="cie87i7qn000fj8wqhhppnpn2" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -353,7 +451,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/01/01/Masonry/" data-id="cie7uwrk90014nywqhuzuxcj1" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/01/01/Masonry/" data-id="cie87i7r90014j8wqkkhrtyj4" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -422,7 +520,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2014/12/12/iOS动画整理/" data-id="cie7uwrjs000jnywq1mpq21gh" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2014/12/12/iOS动画整理/" data-id="cie87i7qp000jj8wq24bs8ea7" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -483,7 +581,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2014/11/06/Xcode插件/" data-id="cie7uwrk50011nywqvd9s10bk" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2014/11/06/Xcode插件/" data-id="cie87i7r50011j8wqsv6t2iqw" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -538,7 +636,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2014/10/08/iOS 8.0获取地理位置信息/" data-id="cie7uwrk2000xnywqnvabo2e1" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2014/10/08/iOS 8.0获取地理位置信息/" data-id="cie87i7r1000xj8wq5nww52mu" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -628,7 +726,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2014/08/16/iOS URL Scheme/" data-id="cie7uwrju000pnywq175rm7jj" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2014/08/16/iOS URL Scheme/" data-id="cie87i7qs000pj8wqc936w17a" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -645,88 +743,10 @@
 
 
   
-    <article id="post-利用Hexo搭建博客" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/07/22/利用Hexo搭建博客/" class="article-date">
-  <time datetime="2014-07-22T15:44:55.000Z" itemprop="datePublished">2014-07-22</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/技术文章/">技术文章</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/07/22/利用Hexo搭建博客/">利用Hexo搭建博客</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以前用<code>Octopress</code>搭过博客，折腾了好久才弄出来，当时看到那巨难看的默认主题，繁琐的操作，一点写东西的欲望都没了。</p>
-<p>一次逛微博，看见了<code>Hexo</code>。尝试了一下，真的很好用哦。</p>
-<p>下面记录下流程：</p>
-<h3 id="安装node">安装<code>node</code></h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew <span class="keyword">install</span> node</span><br></pre></td></tr></table></figure>
-<p>最新版的<code>node.js</code>已经集成了<code>npm</code>包。所以只需验证一下<code>node</code>,<code>npm</code>是否安装成功。</p>
-<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line"><span class="built_in">npm</span> -v</span><br></pre></td></tr></table></figure>
-<h3 id="安装Hexo">安装<code>Hexo</code></h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install</span> hexo -g</span><br></pre></td></tr></table></figure>
-<h3 id="初始化">初始化</h3><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init blog <span class="list">(我起的文件夹名叫blog,你可以随意替换)</span></span><br></pre></td></tr></table></figure>
-<h3 id="生成静态页面">生成静态页面</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> 到你init文件夹下 例如：</span><br><span class="line"><span class="keyword">cd</span> ~/blog </span><br><span class="line"></span><br><span class="line">hexo <span class="keyword">generate</span></span><br></pre></td></tr></table></figure>
-<h3 id="预览">预览</h3><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="keyword">server</span></span><br></pre></td></tr></table></figure>
-<p>浏览器输入 <a href="http://localhost:4000" target="_blank" rel="external">http://localhost:4000</a> 就可以看到效果。</p>
-<p>预览完了可以<code>ctrl</code> + <code>c</code> 关闭本地服务。</p>
-<h3 id="开始写文章">开始写文章</h3><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="keyword">new</span> <span class="string">"article"</span></span><br></pre></td></tr></table></figure>
-<p>你可以在 <code>~\blog\source\_post</code> 下找到 <code>article.md</code> 这个文件，打开它开始用<code>MarkDown</code>写东西。</p>
-<p>你可以像这样给它设置题目，日期，分类，标签</p>
-<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">title: "Alcatraz"</span><br><span class="line">date: 2015-05-20 12:48:02</span><br><span class="line">categories: </span><br><span class="line"><span class="bullet">- </span>技术文章</span><br><span class="line">tags:</span><br><span class="line"><span class="header">- 神器</span><br><span class="line">---</span></span><br></pre></td></tr></table></figure>
-<h3 id="自定义页面">自定义页面</h3><p>开一个blog至少要向大家介绍下自己。你需要个<code>关于</code>界面。</p>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="keyword">new</span> page <span class="string">"about"</span></span><br></pre></td></tr></table></figure>
-<p>然后直接去source下的about文件夹,编辑index.md就可以了。<br>千万别忘了修改在themes下的具体主题下的_config.yml文件。</p>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">menu:</span></span><br><span class="line">	首页: /</span><br><span class="line">	归档: /archives</span><br><span class="line">	关于: /about</span><br><span class="line"><span class="label">rss:</span> /atom.xml</span><br></pre></td></tr></table></figure>
-<h3 id="发布">发布</h3><p>东西写完了，可以发布了！<br>发布前先配置一下博客，找到并打开这个 ~/blog/_config.yml,<br>至于title,description之类的就不多说了看心情写吧~<br>主要是这段别忘了加</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">	<span class="attribute">type</span>: git</span><br><span class="line">	<span class="attribute">repository</span>: git<span class="variable">@github</span>.<span class="attribute">com</span>:xxx/xxx.github.io.git</span><br><span class="line">	<span class="attribute">branch</span>: master</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">hexo</span> deploy</span><br></pre></td></tr></table></figure>
-<p>如果报错：</p>
-<figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="built_in">ERROR</span> Deployer <span class="keyword">not</span> found: github</span><br></pre></td></tr></table></figure>
-<p>那就先安装</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="operator"><span class="keyword">install</span> hexo-deployer-git <span class="comment">--save</span></span></span><br></pre></td></tr></table></figure>
-<p>再执行<code>hexo deploy</code></p>
-<p>OK! 到这里博客网站成功建成！</p>
-<h2 id="后记">后记</h2><p>Hexo是基于node.js的,所以先安装node。</p>
-<p>如果嫌网页加载慢，上传时把关于google字体的代码注掉。</p>
-<p>至于加主题，加评论，加挂件啥的就不说了，</p>
-<p>用到了去google一下。这里只记录hexo安装,推荐hexo给大家。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://lyjh.net/2014/07/22/利用Hexo搭建博客/" data-id="cie7uwrjo000bnywqyb1ql554" class="article-share-link" data-share="baidu">分享到</a>
-      
-
-      
-        <a href="http://lyjh.net/2014/07/22/利用Hexo搭建博客/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/神器/">神器</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 </section>
       
@@ -736,7 +756,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS教程/">iOS教程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术文章/">技术文章</a><span class="category-list-count">9</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Git使用教程/">Git使用教程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS教程/">iOS教程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术文章/">技术文章</a><span class="category-list-count">9</span></li></ul>
     </div>
   </div>
 
@@ -745,7 +765,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-Bluetooth/">Core Bluetooth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreAnimation/">CoreAnimation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreLocation/">CoreLocation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Masonry/">Masonry</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIKit/">UIKit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIWebView/">UIWebView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/URL-Scheme/">URL Scheme</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/神器/">神器</a><span class="tag-list-count">2</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-Bluetooth/">Core Bluetooth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreAnimation/">CoreAnimation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreLocation/">CoreLocation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Masonry/">Masonry</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIKit/">UIKit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIWebView/">UIWebView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/URL-Scheme/">URL Scheme</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/神器/">神器</a><span class="tag-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -754,7 +774,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Core-Bluetooth/" style="font-size: 10px;">Core Bluetooth</a><a href="/tags/CoreAnimation/" style="font-size: 10px;">CoreAnimation</a><a href="/tags/CoreLocation/" style="font-size: 10px;">CoreLocation</a><a href="/tags/Masonry/" style="font-size: 10px;">Masonry</a><a href="/tags/UIKit/" style="font-size: 10px;">UIKit</a><a href="/tags/UIWebView/" style="font-size: 10px;">UIWebView</a><a href="/tags/URL-Scheme/" style="font-size: 10px;">URL Scheme</a><a href="/tags/动画/" style="font-size: 10px;">动画</a><a href="/tags/教程/" style="font-size: 10px;">教程</a><a href="/tags/神器/" style="font-size: 20px;">神器</a>
+      <a href="/tags/Core-Bluetooth/" style="font-size: 10px;">Core Bluetooth</a><a href="/tags/CoreAnimation/" style="font-size: 10px;">CoreAnimation</a><a href="/tags/CoreLocation/" style="font-size: 10px;">CoreLocation</a><a href="/tags/Masonry/" style="font-size: 10px;">Masonry</a><a href="/tags/UIKit/" style="font-size: 10px;">UIKit</a><a href="/tags/UIWebView/" style="font-size: 10px;">UIWebView</a><a href="/tags/URL-Scheme/" style="font-size: 10px;">URL Scheme</a><a href="/tags/动画/" style="font-size: 10px;">动画</a><a href="/tags/教程/" style="font-size: 20px;">教程</a><a href="/tags/神器/" style="font-size: 20px;">神器</a>
     </div>
   </div>
 
@@ -763,7 +783,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -773,6 +793,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2015/09/06/Git使用教程/">Git使用教程</a>
+          </li>
         
           <li>
             <a href="/2015/09/01/课程demo/">尚学堂课程demo</a>
@@ -788,10 +812,6 @@
         
           <li>
             <a href="/2015/02/10/关于backBarButtonItem的N种方法/">关于backBarButtonItem的N种方法</a>
-          </li>
-        
-          <li>
-            <a href="/2015/01/01/Masonry/">Masonry</a>
           </li>
         
       </ul>
