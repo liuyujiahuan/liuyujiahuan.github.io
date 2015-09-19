@@ -4,17 +4,29 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2014/8 | 大欢的技术博客</title>
+  <title>UISearchController详解 | 大欢的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="大欢的技术博客">
-<meta property="og:url" content="http://lyjh.net/archives/2014/08/index.html">
+  <meta name="description" content="UISearchController是iOS 8新加的一个类，它用来代替之前的UISearchDisplayController。
+
+NS_CLASS_DEPRECATED_IOS(3_0, 8_0, “UISearchDisplayController has been replaced with UISearchController”)
+
+稍微研究了下，它们用法差不多，UISearchCont">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UISearchController详解">
+<meta property="og:url" content="http://lyjh.net/2015/09/18/UISearchController详解/index.html">
 <meta property="og:site_name" content="大欢的技术博客">
-<meta property="og:description">
+<meta property="og:description" content="UISearchController是iOS 8新加的一个类，它用来代替之前的UISearchDisplayController。
+
+NS_CLASS_DEPRECATED_IOS(3_0, 8_0, “UISearchDisplayController has been replaced with UISearchController”)
+
+稍微研究了下，它们用法差不多，UISearchCont">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="大欢的技术博客">
-<meta name="twitter:description">
+<meta name="twitter:title" content="UISearchController详解">
+<meta name="twitter:description" content="UISearchController是iOS 8新加的一个类，它用来代替之前的UISearchDisplayController。
+
+NS_CLASS_DEPRECATED_IOS(3_0, 8_0, “UISearchDisplayController has been replaced with UISearchController”)
+
+稍微研究了下，它们用法差不多，UISearchCont">
   
     <link rel="alternative" href="/atom.xml" title="大欢的技术博客" type="application/atom+xml">
   
@@ -72,39 +84,85 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2014/08/16/iOS URL Scheme/" class="archive-article-date">
-  <time datetime="2014-08-16T15:44:55.000Z" itemprop="datePublished">8月 16</time>
+      <section id="main"><article id="post-UISearchController详解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/18/UISearchController详解/" class="article-date">
+  <time datetime="2015-09-18T15:44:55.000Z" itemprop="datePublished">2015-09-18</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/iOS教程/">iOS教程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/08/16/iOS URL Scheme/">iOS URL Scheme</a>
+    <h1 class="article-title" itemprop="name">
+      UISearchController详解
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>UISearchController是iOS 8新加的一个类，它用来代替之前的UISearchDisplayController。</p>
+<blockquote>
+<p>NS_CLASS_DEPRECATED_IOS(3_0, 8_0, “UISearchDisplayController has been replaced with UISearchController”)</p>
+</blockquote>
+<p>稍微研究了下，它们用法差不多，<code>UISearchController</code>更灵活点。<br>下面简单讲解一下<code>UISearchController</code>：</p>
+<h3 id="initWithSearchResultsController">initWithSearchResultsController</h3><p>在初始化<code>UISearchController</code>它要求我们要先设计好的<code>searchResultsController</code>这个控制器,它可以是<code>UITableViewController</code>，也可以是<code>UICollectionViewController</code>,也可以是<code>nil</code>。如果设为<code>nil</code>的话，那数据源和搜索结果共用一个<code>Controller</code>。</p>
+<h3 id="dimsBackgroundDuringPresentation">dimsBackgroundDuringPresentation</h3><p>设置开始搜索时背景是否显示</p>
+<h3 id="hidesNavigationBarDuringPresentation">hidesNavigationBarDuringPresentation</h3><p>设置开始搜索时导航条是否隐藏</p>
+<h3 id="searchResultsUpdater">searchResultsUpdater</h3><p>这个方法很重要，当searchBar的字符内容改变时系统回调，我们一般在这里查找符合条件的搜索结果。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span><span class="variable">.searchController</span><span class="variable">.searchResultsUpdater</span> = <span class="keyword">self</span>;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark - UISearchResultsUpdating Methods</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)updateSearchResultsForSearchController:(<span class="built_in">UISearchController</span> *)searchController &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>UISearchControllerDelegate 还提供了开始搜索，结束搜索的几个代理方法。比较简单就略过吧。</p>
+<p>UISearchBarDelegate 的用法和以前一样也略过。</p>
+<h3 id="NSPredicate">NSPredicate</h3><p>搜索过程中一般使用NSPredicate。</p>
+<p>谓词中SELF代表被查询的集合。这句谓词的意思是查找集合中包含搜素字符串的数据。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSPredicate</span> *preicate = [<span class="built_in">NSPredicate</span> predicateWithFormat:<span class="string">@"SELF CONTAINS[c] %@"</span>, searchString];  </span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">self</span><span class="variable">.searchResults</span> != <span class="literal">nil</span>) &#123;</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.searchResults</span> removeAllObjects];    </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">self</span><span class="variable">.searchResults</span> = [<span class="built_in">NSMutableArray</span> arrayWithArray:[<span class="keyword">self</span><span class="variable">.dataList</span> filteredArrayUsingPredicate:preicate]];</span><br></pre></td></tr></table></figure>
+<p>UISearchControllerDemo 我放到了网盘上了。<a href="http://pan.baidu.com/s/1i3LD8Y5" target="_blank" rel="external">http://pan.baidu.com/s/1i3LD8Y5</a></p>
+<p>大家可以去下，写了两个工程，UISearchController的不同启动样式。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://lyjh.net/2015/09/18/UISearchController详解/" data-id="cieqwaqta001433wqgar86ezc" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="http://lyjh.net/2015/09/18/UISearchController详解/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/教程/">教程</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/09/06/Git使用教程/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">Git使用教程</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="2015/09/18/UISearchController详解/" data-title="UISearchController详解" data-url="http://lyjh.net/2015/09/18/UISearchController详解/"></div>
+  </section>
 </section>
       
       <aside id="sidebar">

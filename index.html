@@ -4,19 +4,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>大欢的博客</title>
+  <title>大欢的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description">
 <meta property="og:type" content="website">
-<meta property="og:title" content="大欢的博客">
+<meta property="og:title" content="大欢的技术博客">
 <meta property="og:url" content="http://lyjh.net/index.html">
-<meta property="og:site_name" content="大欢的博客">
+<meta property="og:site_name" content="大欢的技术博客">
 <meta property="og:description">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="大欢的博客">
+<meta name="twitter:title" content="大欢的技术博客">
 <meta name="twitter:description">
   
-    <link rel="alternative" href="/atom.xml" title="大欢的博客" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="大欢的技术博客" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -33,11 +33,11 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">大欢的博客</a>
+        <a href="/" id="logo">大欢的技术博客</a>
       </h1>
       
         <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">iOS攻城狮</a>
+          <a href="/" id="subtitle">没事瞎秀技术的iOS讲师，正在减肥的胖子，爱喝啤酒的梦想家。</a>
         </h2>
       
     </div>
@@ -73,6 +73,71 @@
 </header>
     <div class="outer">
       <section id="main">
+  
+    <article id="post-UISearchController详解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/18/UISearchController详解/" class="article-date">
+  <time datetime="2015-09-18T15:44:55.000Z" itemprop="datePublished">2015-09-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/iOS教程/">iOS教程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/18/UISearchController详解/">UISearchController详解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>UISearchController是iOS 8新加的一个类，它用来代替之前的UISearchDisplayController。</p>
+<blockquote>
+<p>NS_CLASS_DEPRECATED_IOS(3_0, 8_0, “UISearchDisplayController has been replaced with UISearchController”)</p>
+</blockquote>
+<p>稍微研究了下，它们用法差不多，<code>UISearchController</code>更灵活点。<br>下面简单讲解一下<code>UISearchController</code>：</p>
+<h3 id="initWithSearchResultsController">initWithSearchResultsController</h3><p>在初始化<code>UISearchController</code>它要求我们要先设计好的<code>searchResultsController</code>这个控制器,它可以是<code>UITableViewController</code>，也可以是<code>UICollectionViewController</code>,也可以是<code>nil</code>。如果设为<code>nil</code>的话，那数据源和搜索结果共用一个<code>Controller</code>。</p>
+<h3 id="dimsBackgroundDuringPresentation">dimsBackgroundDuringPresentation</h3><p>设置开始搜索时背景是否显示</p>
+<h3 id="hidesNavigationBarDuringPresentation">hidesNavigationBarDuringPresentation</h3><p>设置开始搜索时导航条是否隐藏</p>
+<h3 id="searchResultsUpdater">searchResultsUpdater</h3><p>这个方法很重要，当searchBar的字符内容改变时系统回调，我们一般在这里查找符合条件的搜索结果。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span><span class="variable">.searchController</span><span class="variable">.searchResultsUpdater</span> = <span class="keyword">self</span>;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark - UISearchResultsUpdating Methods</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)updateSearchResultsForSearchController:(<span class="built_in">UISearchController</span> *)searchController &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>UISearchControllerDelegate 还提供了开始搜索，结束搜索的几个代理方法。比较简单就略过吧。</p>
+<p>UISearchBarDelegate 的用法和以前一样也略过。</p>
+<h3 id="NSPredicate">NSPredicate</h3><p>搜索过程中一般使用NSPredicate。</p>
+<p>谓词中SELF代表被查询的集合。这句谓词的意思是查找集合中包含搜素字符串的数据。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSPredicate</span> *preicate = [<span class="built_in">NSPredicate</span> predicateWithFormat:<span class="string">@"SELF CONTAINS[c] %@"</span>, searchString];  </span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">self</span><span class="variable">.searchResults</span> != <span class="literal">nil</span>) &#123;</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.searchResults</span> removeAllObjects];    </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">self</span><span class="variable">.searchResults</span> = [<span class="built_in">NSMutableArray</span> arrayWithArray:[<span class="keyword">self</span><span class="variable">.dataList</span> filteredArrayUsingPredicate:preicate]];</span><br></pre></td></tr></table></figure>
+<p>UISearchControllerDemo 我放到了网盘上了。<a href="http://pan.baidu.com/s/1i3LD8Y5" target="_blank" rel="external">http://pan.baidu.com/s/1i3LD8Y5</a></p>
+<p>大家可以去下，写了两个工程，UISearchController的不同启动样式。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://lyjh.net/2015/09/18/UISearchController详解/" data-id="cieqwaqta001433wqgar86ezc" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="http://lyjh.net/2015/09/18/UISearchController详解/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/教程/">教程</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-Git使用教程" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -157,7 +222,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/09/06/Git使用教程/" data-id="cie87lgvi0018jswqhz6m0bt6" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/09/06/Git使用教程/" data-id="cieqwaqth001b33wqkkq2nxe3" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -207,7 +272,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/09/01/课程demo/" data-id="cie87lgui0001jswqu6i75fgh" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/09/01/课程demo/" data-id="cieqwaqsa000133wqefwehsej" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -278,7 +343,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/04/06/聊聊UIWebView/" data-id="cie87lgup0006jswqur5khjkk" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/04/06/聊聊UIWebView/" data-id="cieqwaqsi000633wq6kjm21cn" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -336,7 +401,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/03/12/iOS Core Bluetooth/" data-id="cie87lgv2000tjswqih6in98a" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/03/12/iOS Core Bluetooth/" data-id="cieqwaqsz000t33wqh1bhg0m7" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -398,7 +463,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/02/10/关于backBarButtonItem的N种方法/" data-id="cie87lguv000fjswq6cx2i4sf" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/02/10/关于backBarButtonItem的N种方法/" data-id="cieqwaqsq000f33wqere7j32z" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -453,7 +518,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/01/01/Masonry/" data-id="cie87lgvg0014jswq8s27cata" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/01/01/Masonry/" data-id="cieqwaqte001733wqqwzq3g40" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -522,7 +587,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2014/12/12/iOS动画整理/" data-id="cie87lgux000jjswq59j3bx7i" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2014/12/12/iOS动画整理/" data-id="cieqwaqss000j33wq6unbmo7c" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -583,7 +648,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2014/11/06/Xcode插件/" data-id="cie87lgvc0011jswq381o88rm" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2014/11/06/Xcode插件/" data-id="cieqwaqt8001133wqsjg4hffd" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -638,7 +703,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2014/10/08/iOS 8.0获取地理位置信息/" data-id="cie87lgv9000xjswqjf7lf0zs" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2014/10/08/iOS 8.0获取地理位置信息/" data-id="cieqwaqt5000x33wqw2vj7w1z" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -647,96 +712,6 @@
 
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CoreLocation/">CoreLocation</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-iOS URL Scheme" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/08/16/iOS URL Scheme/" class="article-date">
-  <time datetime="2014-08-16T15:44:55.000Z" itemprop="datePublished">2014-08-16</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/技术文章/">技术文章</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/08/16/iOS URL Scheme/">iOS URL Scheme</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="需求：">需求：</h3><p>公司要求在手机浏览器上，打开一个app宣传页。点击网页上的链接，如果手机上已经安装了该app,就打开。没安装，就提示下载（企业级账号发布的app）。</p>
-<p>于是抽空研究了一下<code>URL Scheme</code>.</p>
-<h3 id="从浏览器跳转到app">从浏览器跳转到app</h3><p>通过<code>URL Scheme</code>的方式启动应用和参数的传递，要先创建<code>URL Scheme</code>。</p>
-<ul>
-<li>可以在<code>info.plist</code>里手动添加<code>URL types</code>，<code>URL identifier</code>，<code>URL Schemes</code>像这样：</li>
-</ul>
-<p><img src="/images/URL_Scheme图1.png" alt="我是图1" title="Optional title"></p>
-<ul>
-<li>也可以在<code>info</code>标签下的 <code>URL Types</code> 下，直接填写。</li>
-</ul>
-<p><img src="/images/URL_Scheme图2.png" alt="我是图2" title="Optional title"></p>
-<p>在<code>Safari</code>中直接在浏览器的地址栏中输入<code>dsny://</code>,就可以跳转到app里了。</p>
-<blockquote>
-<p>注意：如果<code>Bundle Identifier</code> 和 设置的 <code>URL identifier</code> 不一致，系统会弹出提示框，询问是否跳转。</p>
-</blockquote>
-<h3 id="从一个app跳转到另一个app">从一个app跳转到另一个app</h3><p>还记得这样的跳转吧,它可以从当前app调到<code>iMessage</code>，<code>sms://</code>其实就是<code>iMessage</code>的<code>URLScheme</code>：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr_selector">[[UIApplication sharedApplication]</span> <span class="rule"><span class="attribute">openURL</span>:<span class="value">[NSURL URLWithString:@<span class="string">"sms://1851826****"</span>]]</span></span>;</span><br></pre></td></tr></table></figure>
-<p>同样的道理，在一个app里写入如下的代码，就可以跳转到刚才设置URLScheme的app里了：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr_selector">[[UIApplication sharedApplication]</span> <span class="rule"><span class="attribute">openURL</span>:<span class="value">[NSURL URLWithString:@<span class="string">"dsny://"</span>]]</span></span>;</span><br></pre></td></tr></table></figure>
-<p>如果app之间跳转还需要通信的话，参数可以这样传递：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr_selector">[[UIApplication sharedApplication]</span> <span class="rule"><span class="attribute">openURL</span>:<span class="value">[NSURL URLWithString:@<span class="string">"dsny://?name=123&amp;sex=2"</span>]]</span></span>;</span><br></pre></td></tr></table></figure>
-<p>可以这样接收：</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application openURL:(<span class="built_in">NSURL</span> *)url sourceApplication:(<span class="built_in">NSString</span> *)sourceApplication annotation:(<span class="keyword">id</span>)annotation</span><br><span class="line">&#123;</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"调用的应用程序的Bundle ID是: %@"</span>, sourceApplication);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"URL scheme:%@"</span>, [url scheme]);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"URL query: %@"</span>, [url query]);</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>再扩展想一下，我们经常写的跳转到微信，微博授权分享，不就是把三方给我们提供的AppKey写到URLScheme。我们调用sdk方法使app跳到微信，微信就可以通过AppKey顺利跳回我们的app。</p>
-<h3 id="从一个app跳转到系统设置的子页面">从一个app跳转到系统设置的子页面</h3><p>stackoverflow上找到的：</p>
-<ul>
-<li>prefs:root=General&amp;path=About</li>
-<li>prefs:root=General&amp;path=ACCESSIBILITY</li>
-<li>prefs:root=AIRPLANE_MODE</li>
-<li>prefs:root=General&amp;path=AUTOLOCK</li>
-<li>prefs:root=General&amp;path=USAGE/CELLULAR_USAGE</li>
-<li>prefs:root=Brightness</li>
-<li>prefs:root=General&amp;path=Bluetooth</li>
-<li>prefs:root=General&amp;path=DATE_AND_TIME</li>
-<li>prefs:root=FACETIME</li>
-<li>prefs:root=General</li>
-<li>prefs:root=General&amp;path=Keyboard</li>
-</ul>
-<p>简单的列举几个，没有的子页面可以去这里找。<a href="http://stackoverflow.com/questions/8246070/ios-launching-settings-restrictions-url-scheme" target="_blank" rel="external">更多</a></p>
-<p>添加这段代码：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr_selector">[[UIApplication sharedApplication]</span> <span class="rule"><span class="attribute">openURL</span>:<span class="value">[NSURL URLWithString:@<span class="string">"prefs:root=WIFI"</span>]]</span></span>;</span><br></pre></td></tr></table></figure>
-<p>这样还不够，还需创建个app的<code>URL Scheme</code>，只填写prefs就可以了。<br>至于为什么这么写，暂时还没有研究。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://lyjh.net/2014/08/16/iOS URL Scheme/" data-id="cie87lguz000pjswqt52gjyc7" class="article-share-link" data-share="baidu">分享到</a>
-      
-
-      
-        <a href="http://lyjh.net/2014/08/16/iOS URL Scheme/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/URL-Scheme/">URL Scheme</a></li></ul>
 
     </footer>
   </div>
@@ -758,7 +733,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Git使用教程/">Git使用教程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS教程/">iOS教程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术文章/">技术文章</a><span class="category-list-count">9</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Git使用教程/">Git使用教程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS教程/">iOS教程</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术文章/">技术文章</a><span class="category-list-count">9</span></li></ul>
     </div>
   </div>
 
@@ -767,7 +742,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-Bluetooth/">Core Bluetooth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreAnimation/">CoreAnimation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreLocation/">CoreLocation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Masonry/">Masonry</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIKit/">UIKit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIWebView/">UIWebView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/URL-Scheme/">URL Scheme</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/神器/">神器</a><span class="tag-list-count">2</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-Bluetooth/">Core Bluetooth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreAnimation/">CoreAnimation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreLocation/">CoreLocation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Masonry/">Masonry</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIKit/">UIKit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIWebView/">UIWebView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/URL-Scheme/">URL Scheme</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/神器/">神器</a><span class="tag-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -776,7 +751,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Core-Bluetooth/" style="font-size: 10px;">Core Bluetooth</a><a href="/tags/CoreAnimation/" style="font-size: 10px;">CoreAnimation</a><a href="/tags/CoreLocation/" style="font-size: 10px;">CoreLocation</a><a href="/tags/Masonry/" style="font-size: 10px;">Masonry</a><a href="/tags/UIKit/" style="font-size: 10px;">UIKit</a><a href="/tags/UIWebView/" style="font-size: 10px;">UIWebView</a><a href="/tags/URL-Scheme/" style="font-size: 10px;">URL Scheme</a><a href="/tags/动画/" style="font-size: 10px;">动画</a><a href="/tags/教程/" style="font-size: 20px;">教程</a><a href="/tags/神器/" style="font-size: 20px;">神器</a>
+      <a href="/tags/Core-Bluetooth/" style="font-size: 10px;">Core Bluetooth</a><a href="/tags/CoreAnimation/" style="font-size: 10px;">CoreAnimation</a><a href="/tags/CoreLocation/" style="font-size: 10px;">CoreLocation</a><a href="/tags/Masonry/" style="font-size: 10px;">Masonry</a><a href="/tags/UIKit/" style="font-size: 10px;">UIKit</a><a href="/tags/UIWebView/" style="font-size: 10px;">UIWebView</a><a href="/tags/URL-Scheme/" style="font-size: 10px;">URL Scheme</a><a href="/tags/动画/" style="font-size: 10px;">动画</a><a href="/tags/教程/" style="font-size: 20px;">教程</a><a href="/tags/神器/" style="font-size: 15px;">神器</a>
     </div>
   </div>
 
@@ -785,7 +760,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -795,6 +770,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2015/09/18/UISearchController详解/">UISearchController详解</a>
+          </li>
         
           <li>
             <a href="/2015/09/06/Git使用教程/">Git使用教程</a>
@@ -810,10 +789,6 @@
         
           <li>
             <a href="/2015/03/12/iOS Core Bluetooth/">iOS Core Bluetooth</a>
-          </li>
-        
-          <li>
-            <a href="/2015/02/10/关于backBarButtonItem的N种方法/">关于backBarButtonItem的N种方法</a>
           </li>
         
       </ul>
