@@ -74,6 +74,61 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-iOS 8.0获取地理位置信息" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/10/08/iOS 8.0获取地理位置信息/" class="article-date">
+  <time datetime="2014-10-08T15:44:55.000Z" itemprop="datePublished">2014-10-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/技术文章/">技术文章</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/10/08/iOS 8.0获取地理位置信息/">兼容iOS 8.0以上获取地理位置信息</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>仅仅是个记录直接上代码 ~</p>
+<p>.h 文件</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">void</span>(^GetLatitudeAndLongitude)(<span class="built_in">NSString</span> *lat,<span class="built_in">NSString</span> *lng);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">LocationManger</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSDictionary</span> * locationDict;</span><br><span class="line"></span><br><span class="line">+ (instancetype)sharedLoaction;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)getGps:(GetLatitudeAndLongitude)block;</span><br></pre></td></tr></table></figure>
+<p>.m 文件</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">LocationManger</span> ()&lt;<span class="title">CLLocationManagerDelegate</span>&gt;</span></span><br><span class="line">&#123;</span><br><span class="line">    GetLatitudeAndLongitude block;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) CLLocationManager * locManager;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">LocationManger</span></span></span><br><span class="line"></span><br><span class="line">+(instancetype)sharedLoaction</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">static</span> LocationManger *standard = <span class="literal">nil</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</span><br><span class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;</span><br><span class="line">        standard = [[LocationManger alloc]init];</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> standard;</span><br><span class="line">&#125;</span><br><span class="line">- (instancetype)init</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> init];</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</span><br><span class="line">        _locManager = [[CLLocationManager alloc] init];</span><br><span class="line">        [_locManager setDesiredAccuracy:kCLLocationAccuracyBest];</span><br><span class="line">        [_locManager setDelegate:<span class="keyword">self</span>];</span><br><span class="line">        <span class="keyword">if</span>([_locManager respondsToSelector:<span class="keyword">@selector</span>(requestAlwaysAuthorization)]) &#123;</span><br><span class="line">            [_locManager requestAlwaysAuthorization]; <span class="comment">// 永久授权</span></span><br><span class="line">        &#125;</span><br><span class="line">        _locManager<span class="variable">.distanceFilter</span>=<span class="number">100</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)locationManager:(CLLocationManager *)manager</span><br><span class="line">     didUpdateToLocation:(CLLocation *)newLocation</span><br><span class="line">            fromLocation:(CLLocation *)oldLocation</span><br><span class="line">&#123;</span><br><span class="line">    CLLocationCoordinate2D loc = [newLocation coordinate];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSString</span> * lat = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%f"</span>,loc<span class="variable">.latitude</span>];<span class="comment">//get latitude</span></span><br><span class="line">    <span class="built_in">NSString</span> *lon  = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%f"</span>,loc<span class="variable">.longitude</span>];<span class="comment">//get longitude</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (lat!=<span class="literal">nil</span> &amp;&amp; lon!=<span class="literal">nil</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span><span class="variable">.locationDict</span> = @&#123;<span class="string">@"lat"</span>:lat,</span><br><span class="line">                              <span class="string">@"lng"</span>:lon&#125;;</span><br><span class="line">        block(lat,lon);</span><br><span class="line">        [manager stopUpdatingLocation];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)locationManager:(CLLocationManager *)manager didFailWithError:(<span class="built_in">NSError</span> *)error</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> ([error code] == kCLErrorDenied)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//访问被拒绝</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ([error code] == kCLErrorLocationUnknown) &#123;</span><br><span class="line">        <span class="comment">//无法获取位置信息</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)getGps:(GetLatitudeAndLongitude)myblock</span><br><span class="line">&#123;</span><br><span class="line">    block = myblock;</span><br><span class="line">    <span class="keyword">if</span> ([CLLocationManager locationServicesEnabled] == <span class="literal">FALSE</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    [_locManager startUpdatingLocation];</span><br><span class="line">   </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>还要在info.plist文件里创建<code>NSLocationAlwaysUsageDescription</code>这一项，对应的值不能乱写，它会在询问是否允许定位中显示出来，这样写 ~ 比如<code>我们需要获取您的地理位置</code>。</p>
+<p>这么调用 ~ </p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="collection">[<span class="collection">[LocationManger sharedLoaction]</span> getGps:^<span class="list">(<span class="keyword">NSString</span> *lat, NSString *lng)</span> <span class="collection">&#123;</span><br><span class="line">&#125;</span>]</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://lyjh.net/2014/10/08/iOS 8.0获取地理位置信息/" data-id="cif284w900010f7wqm10b2bij" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="http://lyjh.net/2014/10/08/iOS 8.0获取地理位置信息/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CoreLocation/">CoreLocation</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-iOS URL Scheme" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/08/16/iOS URL Scheme/" class="article-date">
@@ -147,7 +202,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2014/08/16/iOS URL Scheme/" data-id="cieqx00n6000p5nwqg2cebuzo" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2014/08/16/iOS URL Scheme/" data-id="cif284w8p000pf7wqeel9ynhj" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -229,7 +284,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2014/07/22/利用Hexo搭建博客/" data-id="cieqx00n0000b5nwqhk0o53zt" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2014/07/22/利用Hexo搭建博客/" data-id="cif284w8h000bf7wqe1bwyctd" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -259,7 +314,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Git使用教程/">Git使用教程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS教程/">iOS教程</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术文章/">技术文章</a><span class="category-list-count">9</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Git使用教程/">Git使用教程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS教程/">iOS教程</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术文章/">技术文章</a><span class="category-list-count">9</span></li></ul>
     </div>
   </div>
 
@@ -268,7 +323,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-Bluetooth/">Core Bluetooth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreAnimation/">CoreAnimation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreLocation/">CoreLocation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Masonry/">Masonry</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIKit/">UIKit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIWebView/">UIWebView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/URL-Scheme/">URL Scheme</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/神器/">神器</a><span class="tag-list-count">2</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-Bluetooth/">Core Bluetooth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreAnimation/">CoreAnimation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreLocation/">CoreLocation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Masonry/">Masonry</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIKit/">UIKit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIWebView/">UIWebView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/URL-Scheme/">URL Scheme</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/神器/">神器</a><span class="tag-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -286,7 +341,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -296,6 +351,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2015/09/27/iOS多线程GCD详解/">iOS多线程GCD详解</a>
+          </li>
         
           <li>
             <a href="/2015/09/18/UISearchController详解/">UISearchController详解</a>
@@ -311,10 +370,6 @@
         
           <li>
             <a href="/2015/04/06/聊聊UIWebView/">聊聊 UIWebView</a>
-          </li>
-        
-          <li>
-            <a href="/2015/03/12/iOS Core Bluetooth/">iOS Core Bluetooth</a>
           </li>
         
       </ul>
