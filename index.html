@@ -133,6 +133,7 @@
 <li>JSONKit</li>
 <li>MJRefresh</li>
 <li>MJExtension</li>
+<li>Masonry</li>
 <li>友盟，shareSDK等三方库。</li>
 </ol>
 <h3 id="你经常用的设计模式有哪些？">你经常用的设计模式有哪些？</h3><ol>
@@ -234,7 +235,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/10/10/简历整理/" data-id="cifl7s7um000bv1wqsfqawbzf" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/10/10/简历整理/" data-id="cifm6odbs000b55wqnmwqazgc" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -243,6 +244,116 @@
 
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/面试题/">面试题</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-真机测试流程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/10/09/真机测试流程/" class="article-date">
+  <time datetime="2015-10-09T08:04:55.000Z" itemprop="datePublished">2015-10-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/iOS教程/">iOS教程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/09/真机测试流程/">真机测试流程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>访问苹果开发者网站，找到右上角<code>Member Center</code>点击进入子页面。</p>
+<p><img src="/images/zhenji/image1.png" alt="image1"></p>
+<p>进入apple账号登陆界面。输入用户名密码。</p>
+<p><img src="/images/zhenji/image2.png" alt="image2"></p>
+<p>登陆成功后，选择<code>Certificates,Identifiter &amp; Profiles</code>。</p>
+<p><img src="/images/zhenji/image3.png" alt="image3"></p>
+<p><img src="/images/zhenji/image4.png" alt="image4"></p>
+<h3 id="证书配置">证书配置</h3><p>我们进到下图所示的界面就可以正式配置证书相关的东西了。</p>
+<p><img src="/images/zhenji/image5.png" alt="image5"></p>
+<p>首先创建证书。点击右上角的<code>+</code>号。选择我们真机测试使用的证书的选项<code>iOS App Development</code>。去页面的下端点击<code>continue</code>按钮。</p>
+<p><img src="/images/zhenji/image6.png" alt="image6"></p>
+<p>在这里需要<code>CSR文件</code>，先点击<code>Continue</code>下一步。</p>
+<p><img src="/images/zhenji/image7.png" alt="image7"></p>
+<p>我们去创建一个CSR文件，找到并打开钥匙串访问。(找不到这个app的话就<code>Ctrl + 空格</code>,搜索一下<code>钥匙串访问</code>)。</p>
+<p><img src="/images/zhenji/image8.png" alt="image8"></p>
+<p>点开上端的钥匙串访问菜单，选择<code>证书助理</code>，在选择<code>从证书颁发机构请求证书...</code>。</p>
+<p><img src="/images/zhenji/image9.png" alt="image9"></p>
+<p>在证书信息里填写，用户电子邮件地址写<code>开发者账号</code>，常用名称随便填，然后选择<code>存储到磁盘</code>。</p>
+<p><img src="/images/zhenji/image10.png" alt="image10"></p>
+<p>点击继续，保存到桌面即可。</p>
+<p><img src="/images/zhenji/image11.png" alt="image11"></p>
+<p>选择桌面上的CSR文件。点击<code>Generate</code>按钮,进入下一步。</p>
+<p><img src="/images/zhenji/image12.png" alt="image12"></p>
+<p><code>Certificates</code>创建成功！点击<code>Download</code>按钮即可下载。下载完成，点击<code>Done</code>按钮，完成证书申请。</p>
+<p><img src="/images/zhenji/image13.png" alt="image13"></p>
+<h3 id="注册App_ID">注册App ID</h3><p>下面我们创建一个App IDs.点击右上角<code>+</code>号。</p>
+<p><img src="/images/zhenji/image14.png" alt="image14"></p>
+<p>进入注册界面，只需填<code>Name</code>,和<code>Bundle ID</code>两项如图。然后点击<code>continue</code>按钮。</p>
+<p><img src="/images/zhenji/image15.png" alt="image15"></p>
+<p><img src="/images/zhenji/image16.png" alt="image16"></p>
+<p>检查刚才输入的内容，点击<code>Submit</code>按钮。我们就这样成功的创建了App ID.</p>
+<p><img src="/images/zhenji/image17.png" alt="image17"></p>
+<h3 id="添加设备">添加设备</h3><p>添加测试设备,点击右上角<code>+</code>按钮。</p>
+<p><img src="/images/zhenji/image18.png" alt="image18"></p>
+<p>填写名称以及设备的UDID，点击<code>Continue</code>按钮.</p>
+<p><img src="/images/zhenji/image19.png" alt="image19"></p>
+<blockquote>
+<p>如何获得UDID？</p>
+</blockquote>
+<p>打开Xcode，点击上部window菜单，找到Devices选项。</p>
+<p><img src="/images/zhenji/image20.png" alt="image20"></p>
+<h3 id="生成配置文件">生成配置文件</h3><p>创建配置文件<code>Provisioning Profiles</code>,点击右上角的<code>+</code>号。</p>
+<p><img src="/images/zhenji/image21.png" alt="image21"></p>
+<p>选择iOS App Development，点击<code>continue</code>按钮。</p>
+<p><img src="/images/zhenji/image22.png" alt="image22"></p>
+<p>选择刚才创建的App ID。点击<code>continue</code>按钮。</p>
+<p><img src="/images/zhenji/image23.png" alt="image23"></p>
+<p>选择刚才创建的证书。点击<code>continue</code>按钮。</p>
+<p><img src="/images/zhenji/image24.png" alt="image24"></p>
+<p>选择刚才添加的设备，点击<code>continue</code>按钮。</p>
+<p><img src="/images/zhenji/image25.png" alt="image25"></p>
+<p>给<code>proflie</code>起个名字，点击<code>Generate</code>按钮。</p>
+<p><img src="/images/zhenji/image26.png" alt="image26"></p>
+<p>将生成好的配置文件下载到本地。</p>
+<p><img src="/images/zhenji/image27.png" alt="image27"></p>
+<p>最后我们得到了这两个文件。分别双击他们，完成安装。</p>
+<p><img src="/images/zhenji/image28.png" alt="image28"></p>
+<p>配置xcode<br>首先在TARGETS-&gt;Code Signing 中选择配置文件和证书.</p>
+<p><img src="/images/zhenji/image29.png" alt="image29"></p>
+<p>然后在PROJECT-&gt;Code Signing中选择配置文件和证书</p>
+<p><img src="/images/zhenji/image30.png" alt="image30"></p>
+<p>到此真机测试的所有步骤完成，把模拟器调到真机，<code>Command + R</code>。运行我们的程序吧。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://lyjh.net/2015/10/09/真机测试流程/" data-id="cifm6odbu000g55wqqzstte1h" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="http://lyjh.net/2015/10/09/真机测试流程/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/教程/">教程</a></li></ul>
 
     </footer>
   </div>
@@ -321,7 +432,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/09/27/iOS多线程GCD详解/" data-id="cifl7s7us000ov1wq05fzssln" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/09/27/iOS多线程GCD详解/" data-id="cifm6odc1000p55wqq9onqmqu" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -386,7 +497,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/09/18/UISearchController详解/" data-id="cifl7s7ve001cv1wqx577fip3" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/09/18/UISearchController详解/" data-id="cifm6odck001d55wqqzvlxj6p" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -486,7 +597,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/09/06/Git使用教程/" data-id="cifl7s7vi001jv1wqu875y93m" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/09/06/Git使用教程/" data-id="cifm6odcq001k55wqs9hp6lvv" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -536,7 +647,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/09/01/课程demo/" data-id="cifl7s7ua0001v1wqd1mlk4gp" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/09/01/课程demo/" data-id="cifm6odbh000155wq2vu8vmpx" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -607,7 +718,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/04/06/聊聊UIWebView/" data-id="cifl7s7uj0006v1wq19zpcned" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/04/06/聊聊UIWebView/" data-id="cifm6odbo000655wqyb09y4ir" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -665,7 +776,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/03/12/iOS Core Bluetooth/" data-id="cifl7s7v50011v1wqd52y4lxi" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/03/12/iOS Core Bluetooth/" data-id="cifm6odcd001255wqryac0vwe" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -727,7 +838,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/02/10/关于backBarButtonItem的N种方法/" data-id="cifl7s7uq000kv1wq627z1r2d" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/02/10/关于backBarButtonItem的N种方法/" data-id="cifm6odbx000l55wq2p6ibty7" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -782,7 +893,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/01/01/Masonry/" data-id="cifl7s7vg001fv1wqs0f14zpj" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/01/01/Masonry/" data-id="cifm6odcn001g55wqbpnja6fi" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -791,75 +902,6 @@
 
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Masonry/">Masonry</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-iOS动画整理" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/12/12/iOS动画整理/" class="article-date">
-  <time datetime="2014-12-12T15:44:55.000Z" itemprop="datePublished">2014-12-12</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/技术文章/">技术文章</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/12/12/iOS动画整理/">iOS 动画整理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="序列帧动画">序列帧动画</h3><p>曾经项目里的一段源码：</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIImageView</span> * activityImageView = [[<span class="built_in">UIImageView</span> alloc] init];</span><br><span class="line"><span class="built_in">NSMutableArray</span> *imagesList = [<span class="built_in">NSMutableArray</span> array];</span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">NSInteger</span> i = <span class="number">1</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSString</span> *fileName = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"eggplant%i.png"</span>,i];</span><br><span class="line"><span class="built_in">UIImage</span> *image = [<span class="built_in">UIImage</span> imageNamed:fileName];</span><br><span class="line">[imagesList addObject:image];</span><br><span class="line">&#125;</span><br><span class="line">[activityImageView setAnimationImages:imagesList];</span><br><span class="line">[activityImageView setAnimationDuration:<span class="number">0.5</span>];</span><br><span class="line"><span class="comment">//0为无限循环</span></span><br><span class="line">[activityImageView setAnimationRepeatCount:<span class="number">0</span>];</span><br><span class="line">[activityImageView startAnimating];</span><br><span class="line"><span class="comment">//    [activityImageView stopAnimating];</span></span><br></pre></td></tr></table></figure>
-<h2 id="UIView_动画">UIView 动画</h2><h3 id="UIViewAnimation">UIViewAnimation</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个CGAffineTransform  transform对象</span></span><br><span class="line"><span class="built_in">CGAffineTransform</span>  transform;</span><br><span class="line"><span class="comment">//设置旋转度数</span></span><br><span class="line">transform = <span class="built_in">CGAffineTransformRotate</span>(testView<span class="variable">.transform</span>,M_PI/<span class="number">6.0</span>);</span><br><span class="line"><span class="comment">//动画开始</span></span><br><span class="line">[<span class="built_in">UIView</span> beginAnimations:<span class="string">@"rotate"</span> context:<span class="literal">nil</span> ];</span><br><span class="line"><span class="comment">//动画时常</span></span><br><span class="line">[<span class="built_in">UIView</span> setAnimationDuration:<span class="number">2</span>];</span><br><span class="line"><span class="comment">//自动反转</span></span><br><span class="line"><span class="comment">//    [UIView setAnimationRepeatAutoreverses:YES];</span></span><br><span class="line">[<span class="built_in">UIView</span> setAnimationRepeatCount:<span class="number">3</span>];</span><br><span class="line"><span class="comment">//添加代理</span></span><br><span class="line">[<span class="built_in">UIView</span> setAnimationDelegate:<span class="keyword">self</span>];</span><br><span class="line"><span class="comment">//获取transform的值</span></span><br><span class="line">[testView setTransform:transform];</span><br><span class="line"><span class="comment">//关闭动画</span></span><br><span class="line">[<span class="built_in">UIView</span> commitAnimations];</span><br></pre></td></tr></table></figure>
-<h3 id="UIViewAnimationWithBlocks">UIViewAnimationWithBlocks</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Duration 动画持续时间</span><br><span class="line">delay 动画延迟时间</span><br><span class="line">options 动画的节奏控制 */</span></span><br><span class="line"></span><br><span class="line">[UIView <span class="string">animateWithDuration:</span><span class="number">5</span> <span class="string">delay:</span><span class="number">5</span> <span class="string">options:</span>UIViewAnimationOptionCurveEaseInOut <span class="string">animations:</span>^&#123;</span><br><span class="line">testView.frame = CGRectMake(<span class="number">100</span>, <span class="number">300</span>, <span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">&#125; <span class="string">completion:</span>^(BOOL finished) &#123;</span><br><span class="line"></span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Damping 动画的弹力指数</span><br><span class="line">Velocity 弹力的初速度 */</span></span><br><span class="line"></span><br><span class="line">[UIView <span class="string">animateWithDuration:</span><span class="number">0.5</span> <span class="string">delay:</span><span class="number">1</span> <span class="string">usingSpringWithDamping:</span><span class="number">0.8</span> <span class="string">initialSpringVelocity:</span><span class="number">10</span> <span class="string">options:</span><span class="number">0</span> <span class="string">animations:</span>^&#123;</span><br><span class="line">testView.frame = CGRectMake(<span class="number">100</span>, <span class="number">300</span>, <span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">&#125; <span class="string">completion:</span>^(BOOL finished) &#123;</span><br><span class="line"></span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
-<h2 id="CoreAnimation">CoreAnimation</h2><h3 id="CATransition">CATransition</h3><p>继承关系：CATransition -&gt; CAAnimation</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CATransition</span> *transition = [<span class="built_in">CATransition</span> animation];</span><br><span class="line">transition<span class="variable">.duration</span> = <span class="number">0.5</span>;</span><br><span class="line">transition<span class="variable">.timingFunction</span> = [<span class="built_in">CAMediaTimingFunction</span> functionWithName:k<span class="built_in">CAMediaTimingFunctionEaseInEaseOut</span>];</span><br><span class="line"><span class="comment">//动画类型</span></span><br><span class="line">transition<span class="variable">.type</span> = k<span class="built_in">CATransitionPush</span>;</span><br><span class="line"><span class="comment">//动画方向</span></span><br><span class="line">transition<span class="variable">.subtype</span> = k<span class="built_in">CATransitionFromTop</span>;</span><br><span class="line">[testView<span class="variable">.layer</span> addAnimation:transition forKey:<span class="literal">nil</span>];</span><br></pre></td></tr></table></figure>
-<h3 id="CAPropertyAnimation">CAPropertyAnimation</h3><p>继承关系：CABasicAnimation,CAKeyframeAnimation -&gt; CAPropertyAnimation -&gt; CAAnimation</p>
-<p>CABasicAnimation</p>
-<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">CABasicAnimation * <span class="variable">animation =</span> [CABasicAnimation animation];</span><br><span class="line">animation.<span class="variable">keyPath =</span> @<span class="string">"position.y"</span>;</span><br><span class="line"></span><br><span class="line">//运动的绝对距离</span><br><span class="line">animation.<span class="variable">fromValue =</span> @<span class="number">77</span>;</span><br><span class="line">animation.<span class="variable">toValue =</span> @<span class="number">455</span>;</span><br><span class="line"></span><br><span class="line">//运动的相对距离</span><br><span class="line">//    animation.<span class="variable">byValue =</span> @<span class="number">222</span>;</span><br><span class="line"></span><br><span class="line">animation.<span class="variable">duration =</span> <span class="number">1</span>;</span><br><span class="line">//留在最终状态</span><br><span class="line">animation.<span class="variable">fillMode =</span> @<span class="string">"forwards"</span>;</span><br><span class="line">//防止它被自动移除</span><br><span class="line">animation.<span class="variable">removedOnCompletion =</span> NO;</span><br><span class="line">animation.<span class="variable">timingFunction =</span> [CAMediaTimingFunction functionWithControlPoints:<span class="number">0.5</span> :<span class="number">0</span> :<span class="number">0.9</span> :<span class="number">0.7</span>];</span><br><span class="line">[testView.layer addAnimation:animation forKey:@<span class="string">"basic"</span>];</span><br></pre></td></tr></table></figure>
-<p>CAKeyframeAnimation 例一</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="constant">CAKeyframeAnimation </span>* animation = [<span class="constant">CAKeyframeAnimation </span>animation];</span><br><span class="line">animation.keyPath = @<span class="string">"position.x"</span>;</span><br><span class="line">animation.values = @[<span class="variable">@0</span>,<span class="variable">@10</span>,@-<span class="number">10</span>,<span class="variable">@10</span>,<span class="variable">@0</span>];</span><br><span class="line"><span class="regexp">//</span>指定关键帧动画发生的时间</span><br><span class="line">animation.keyTimes = @[ <span class="variable">@0</span>, @(<span class="number">1</span> / <span class="number">6.0</span>), @(<span class="number">3</span> / <span class="number">6.0</span>), @(<span class="number">5</span> / <span class="number">6.0</span>), <span class="variable">@1</span> ];</span><br><span class="line">animation.duration = <span class="number">0</span>.<span class="number">4</span>;</span><br><span class="line"><span class="regexp">//</span>提前无需设置位置</span><br><span class="line">animation.additive = <span class="constant">YES;</span></span><br><span class="line">[testView.layer <span class="symbol">addAnimation:</span>animation <span class="symbol">forKey:</span>@<span class="string">"shake"</span>];</span><br></pre></td></tr></table></figure>
-<p>CAKeyframeAnimation 例二</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CGRect</span> boundingRect = <span class="built_in">CGRectMake</span>(-<span class="number">150</span>, -<span class="number">150</span>,<span class="number">300</span>, <span class="number">300</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">CAKeyframeAnimation</span> *orbit = [<span class="built_in">CAKeyframeAnimation</span> animation];</span><br><span class="line">orbit<span class="variable">.keyPath</span> = <span class="string">@"position"</span>;</span><br><span class="line"><span class="comment">//创建一个圆形的 CGPath 作为我们的关键帧动画的 path。</span></span><br><span class="line">orbit<span class="variable">.path</span> = <span class="built_in">CFAutorelease</span>(<span class="built_in">CGPathCreateWithEllipseInRect</span>(boundingRect, <span class="literal">NULL</span>));</span><br><span class="line">orbit<span class="variable">.duration</span> = <span class="number">2</span>;</span><br><span class="line">orbit<span class="variable">.additive</span> = <span class="literal">YES</span>;</span><br><span class="line">orbit<span class="variable">.repeatCount</span> = HUGE_VALF;</span><br><span class="line"><span class="comment">//恒定速度</span></span><br><span class="line">orbit<span class="variable">.calculationMode</span> = k<span class="built_in">CAAnimationPaced</span>;</span><br><span class="line"><span class="comment">//确保沿着路径旋转</span></span><br><span class="line">orbit<span class="variable">.rotationMode</span> = k<span class="built_in">CAAnimationRotateAuto</span>;</span><br><span class="line">[testView<span class="variable">.layer</span> addAnimation:orbit forKey:<span class="string">@"orbit"</span>];</span><br></pre></td></tr></table></figure>
-<h3 id="CAAnimationGroup_组动画">CAAnimationGroup 组动画</h3><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CABasicAnimation *<span class="variable">animation =</span> [CABasicAnimation animationWithKeyPath:@<span class="string">"transform.scale"</span>];</span><br><span class="line">animation.<span class="variable">duration =</span> <span class="number">3</span>.;</span><br><span class="line">animation.<span class="variable">fromValue =</span> @(<span class="number">0.1</span>);</span><br><span class="line">animation.<span class="variable">toValue =</span> @(<span class="number">1</span>.);</span><br><span class="line"></span><br><span class="line">CABasicAnimation *<span class="variable">animation2 =</span> [CABasicAnimation animationWithKeyPath:@<span class="string">"transform.scale.y"</span>];</span><br><span class="line">animation2.<span class="variable">duration =</span> <span class="number">3</span>.;</span><br><span class="line">animation2.<span class="variable">fromValue =</span> @(<span class="number">1</span>);</span><br><span class="line">animation2.<span class="variable">toValue =</span> @(<span class="number">2</span>.);</span><br><span class="line">animation2.<span class="variable">beginTime =</span> <span class="number">3</span>.;</span><br><span class="line"></span><br><span class="line">CAAnimationGroup *<span class="variable">group =</span> [CAAnimationGroup animation];</span><br><span class="line">group.<span class="variable">duration =</span> <span class="number">6</span>.;</span><br><span class="line">group.<span class="variable">animations =</span> @[animation,animation2];</span><br><span class="line">[testView.layer addAnimation:group forKey:nil];</span><br></pre></td></tr></table></figure>
-<h2 id="Facebook_pop_动画">Facebook pop 动画</h2><h3 id="POPBasicAnimation_基本动画">POPBasicAnimation 基本动画</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">POPBasicAnimation *anim = [POPBasicAnimation <span class="string">animationWithPropertyNamed:</span>kPOPLayerScaleXY];</span><br><span class="line">anim.toValue = [NSValue <span class="string">valueWithCGPoint:</span>CGPointMake(<span class="number">2.0</span>, <span class="number">2.0</span>)];</span><br><span class="line">anim.timingFunction = [CAMediaTimingFunction <span class="string">functionWithName:</span>kCAMediaTimingFunctionEaseIn];</span><br><span class="line">[testView.layer <span class="string">pop_addAnimation:</span>anim <span class="string">forKey:</span>@<span class="string">"Animation"</span>];</span><br></pre></td></tr></table></figure>
-<h3 id="POPSpringAnimation_弹性动画">POPSpringAnimation 弹性动画</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPosition];</span><br><span class="line">anim<span class="variable">.fromValue</span> = [<span class="built_in">NSValue</span> valueWith<span class="built_in">CGPoint</span>:<span class="built_in">CGPointMake</span>(<span class="number">60</span>, <span class="number">350</span>)];</span><br><span class="line">anim<span class="variable">.toValue</span> = [<span class="built_in">NSValue</span> valueWith<span class="built_in">CGPoint</span>:<span class="built_in">CGPointMake</span>(<span class="number">60</span>, <span class="number">150</span>)];</span><br><span class="line">anim<span class="variable">.springBounciness</span> = <span class="number">10</span>;</span><br><span class="line">anim<span class="variable">.springSpeed</span> = <span class="number">10</span>;</span><br><span class="line"><span class="comment">//摩擦力</span></span><br><span class="line">anim<span class="variable">.dynamicsFriction</span> = <span class="number">0.5</span>;</span><br><span class="line"><span class="comment">//张力</span></span><br><span class="line">anim<span class="variable">.dynamicsTension</span> = <span class="number">250</span>;</span><br><span class="line"><span class="comment">//质量</span></span><br><span class="line">anim<span class="variable">.dynamicsMass</span> = <span class="number">0.7</span>;</span><br><span class="line">[testView<span class="variable">.layer</span> pop_addAnimation:anim forKey:<span class="string">@"Animation"</span>];</span><br></pre></td></tr></table></figure>
-<h3 id="POPDecayAnimation_减速动画">POPDecayAnimation 减速动画</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">POPDecayAnimation *anim = [POPDecayAnimation <span class="string">animationWithPropertyNamed:</span>kPOPLayerPositionX];</span><br><span class="line"><span class="comment">//初始速度</span></span><br><span class="line">anim.velocity = @(<span class="number">200</span>);</span><br><span class="line"><span class="comment">//只有fromValue 没有toValue</span></span><br><span class="line">anim.fromValue =  @(<span class="number">100.0</span>);</span><br><span class="line"><span class="comment">//负加速度</span></span><br><span class="line">anim.deceleration = .<span class="number">998</span>;</span><br><span class="line">[anim <span class="string">setCompletionBlock:</span>^(POPAnimation *anim, BOOL finished) &#123;</span><br><span class="line">NSLog(@<span class="string">"执行完毕"</span>);</span><br><span class="line">&#125;];</span><br><span class="line">[testView.layer <span class="string">pop_addAnimation:</span>anim <span class="string">forKey:</span>@<span class="string">"Animation"</span>];</span><br></pre></td></tr></table></figure>
-<h2 id="UIViewController动画">UIViewController动画</h2><p>有时间详细整理下：</p>
-<p><a href="http://onevcat.com/2013/10/vc-transition-in-ios7/" target="_blank" rel="external">http://onevcat.com/2013/10/vc-transition-in-ios7/</a></p>
-<p><a href="http://objccn.io/issue-12-3/" target="_blank" rel="external">http://objccn.io/issue-12-3/</a></p>
-<h3 id="参考文章：">参考文章：</h3><p><a href="http://objccn.io/issue-12-1/" target="_blank" rel="external">http://objccn.io/issue-12-1/</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://lyjh.net/2014/12/12/iOS动画整理/" data-id="cifl7s7uw000rv1wqgsrpw4pe" class="article-share-link" data-share="baidu">分享到</a>
-      
-
-      
-        <a href="http://lyjh.net/2014/12/12/iOS动画整理/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CoreAnimation/">CoreAnimation</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/动画/">动画</a></li></ul>
 
     </footer>
   </div>
@@ -881,7 +923,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Git使用教程/">Git使用教程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS教程/">iOS教程</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS面试题/">iOS面试题</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术文章/">技术文章</a><span class="category-list-count">9</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Git使用教程/">Git使用教程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS教程/">iOS教程</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS面试题/">iOS面试题</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术文章/">技术文章</a><span class="category-list-count">9</span></li></ul>
     </div>
   </div>
 
@@ -890,7 +932,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-Bluetooth/">Core Bluetooth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreAnimation/">CoreAnimation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreLocation/">CoreLocation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Masonry/">Masonry</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIKit/">UIKit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIWebView/">UIWebView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/URL-Scheme/">URL Scheme</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/神器/">神器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-Bluetooth/">Core Bluetooth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreAnimation/">CoreAnimation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreLocation/">CoreLocation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Masonry/">Masonry</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIKit/">UIKit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIWebView/">UIWebView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/URL-Scheme/">URL Scheme</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/神器/">神器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -908,7 +950,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -924,6 +966,10 @@
           </li>
         
           <li>
+            <a href="/2015/10/09/真机测试流程/">真机测试流程</a>
+          </li>
+        
+          <li>
             <a href="/2015/09/27/iOS多线程GCD详解/">iOS多线程GCD详解</a>
           </li>
         
@@ -933,10 +979,6 @@
         
           <li>
             <a href="/2015/09/06/Git使用教程/">Git使用教程</a>
-          </li>
-        
-          <li>
-            <a href="/2015/09/01/课程demo/">尚学堂课程demo</a>
           </li>
         
       </ul>
