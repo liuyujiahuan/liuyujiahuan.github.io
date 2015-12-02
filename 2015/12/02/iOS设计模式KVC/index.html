@@ -1,0 +1,330 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS设计模式 —— KVC | 大欢的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="出差一个多月，一直没更新博客。看着访问量一直增高，开心。
+这一个月主要讲的OC,研究了下iOS设计模式里的KVC,KVO。我们就在这里唠唠这个。
+刨根问底KVCKVC 全称 key valued coding 键值编码
+反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性.JAVA,C#都有这个机制。ObjC也有，所以你根部不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS设计模式 —— KVC">
+<meta property="og:url" content="http://lyjh.net/2015/12/02/iOS设计模式KVC/index.html">
+<meta property="og:site_name" content="大欢的技术博客">
+<meta property="og:description" content="出差一个多月，一直没更新博客。看着访问量一直增高，开心。
+这一个月主要讲的OC,研究了下iOS设计模式里的KVC,KVO。我们就在这里唠唠这个。
+刨根问底KVCKVC 全称 key valued coding 键值编码
+反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性.JAVA,C#都有这个机制。ObjC也有，所以你根部不">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS设计模式 —— KVC">
+<meta name="twitter:description" content="出差一个多月，一直没更新博客。看着访问量一直增高，开心。
+这一个月主要讲的OC,研究了下iOS设计模式里的KVC,KVO。我们就在这里唠唠这个。
+刨根问底KVCKVC 全称 key valued coding 键值编码
+反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性.JAVA,C#都有这个机制。ObjC也有，所以你根部不">
+  
+    <link rel="alternative" href="/atom.xml" title="大欢的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+</head>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">大欢的技术博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">没事爱秀技术的iOS讲师，正在减肥的胖纸，爱喝啤酒的梦想家。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value="" class="search-form-submit">
+          <input name=tn type=hidden value="bds">
+          <input name=cl type=hidden value="3">
+          <input name=ct type=hidden value="2097152">
+          <input type="hidden" name="si" value="lyjh.net">
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="outer">
+      <section id="main"><article id="post-iOS设计模式KVC" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/12/02/iOS设计模式KVC/" class="article-date">
+  <time datetime="2015-12-02T08:04:55.000Z" itemprop="datePublished">2015-12-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/技术文章/">技术文章</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS设计模式 —— KVC
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>出差一个多月，一直没更新博客。看着访问量一直增高，开心。</p>
+<p>这一个月主要讲的OC,研究了下iOS设计模式里的KVC,KVO。我们就在这里唠唠这个。</p>
+<h2 id="刨根问底KVC">刨根问底KVC</h2><p>KVC 全称 key valued coding 键值编码</p>
+<p>反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性.JAVA,C#都有这个机制。ObjC也有，所以你根部不必进行任何操作就可以进行属性的动态读写，就是KVC。</p>
+<p>KVC的操作方法由NSKeyValueCoding提供，而他是NSObject的类别，也就是说ObjC中几乎所有的对象都支持KVC操作。</p>
+<p>Person.h</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Person</span> : <span class="title">NSObject</span></span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> weight;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">readonly</span>,<span class="keyword">copy</span>) <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">readonly</span>, <span class="keyword">assign</span>) <span class="keyword">int</span> age;</span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>) Dog * dog;</span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">assign</span>) <span class="keyword">id</span> ID;</span><br><span class="line"></span><br><span class="line">-(instancetype)initWithDict:(<span class="built_in">NSDictionary</span> *)dict;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>Person.m</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="objectivec"><span class="class"><span class="keyword">@implementation</span> <span class="title">Person</span></span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> _height;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(instancetype)initWithDict:(<span class="built_in">NSDictionary</span> *)dict</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>=[<span class="keyword">super</span> init])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//字典转模型的常用语句</span></span><br><span class="line">        [<span class="keyword">self</span> setValuesForKeysWithDictionary:dict];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//当key的值是没有定义时，设置会执行的方法</span></span><br><span class="line">- (<span class="keyword">void</span>)setValue:(<span class="keyword">id</span>)value forUndefinedKey:(<span class="built_in">NSString</span> *)key &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> ([key isEqualToString:<span class="string">@"id"</span>])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">self</span><span class="variable">.ID</span> = value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//当key的值是没有定义时，取值时执行的方法</span></span><br><span class="line">- (<span class="keyword">id</span>)valueForUndefinedKey:(<span class="built_in">NSString</span> *)key &#123;</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">if</span> ([key isEqualToString:<span class="string">@"id"</span>]) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span><span class="variable">.ID</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="built_in">NSNull</span> null];</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>main.m</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">Person * p1 = [[Person alloc]init];</span><br><span class="line">Dog * d1 = [[Dog alloc] init];</span><br><span class="line">p1.dog = d1;</span><br><span class="line">   </span><br><span class="line"><span class="comment">//setValue:属性值 forKey:属性名（用于简单路径)  </span></span><br><span class="line"><span class="comment">//使用KVC间接修改对象属性时，系统会自动判断对象属性的类型，并完成转换。如该程序中的“170”.      </span></span><br><span class="line">[p1 <span class="string">setValue:</span>@<span class="string">"170"</span> <span class="string">forKey:</span>@<span class="string">"height"</span>];</span><br><span class="line">[p1 <span class="string">setValue:</span>@<span class="string">"70"</span> <span class="string">forKey:</span>@<span class="string">"weight"</span>];</span><br><span class="line">[p1 <span class="string">setValue:</span>@<span class="string">"1"</span> <span class="string">forKey:</span>@<span class="string">"id"</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//setValue:属性值 forKeyPath:属性路径（用于复合路径)</span></span><br><span class="line"><span class="comment">//用KVC取一个嵌套层次很深的路径的时候，只要给它一个路径就能把想要的属性给拿出来。（.可以理解为路径。一直一直进入）。能够帮助我们很方便的编码。</span></span><br><span class="line">[p1 <span class="string">setValue:</span>@<span class="string">"dahuan"</span> <span class="string">forKeyPath:</span>@<span class="string">"dog.name"</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//valueForKey:属性名 、valueForKeyPath:属性名（用于复合路径）</span></span><br><span class="line">NSLog(@<span class="string">"height = %d weight = %d id = %@ dog.name = %@"</span> ,[[p1 <span class="string">valueForKey:</span>@<span class="string">"height"</span>] intValue],[[p1 <span class="string">valueForKey:</span>@<span class="string">"weight"</span>] intValue],[p1 <span class="string">valueForKey:</span>@<span class="string">"id"</span>],[p1 <span class="string">valueForKeyPath:</span>@<span class="string">"dog.name"</span>]);</span><br><span class="line"></span><br><span class="line">log日志：height = <span class="number">170</span> weight = <span class="number">70</span> id = <span class="number">11111</span> dog.name = dahuan</span><br><span class="line">所有的属性都可以赋值成功</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NSDictionary * dict = @&#123;@<span class="string">"height"</span>:@<span class="string">"160"</span>,</span><br><span class="line">                        @<span class="string">"weight"</span>:@<span class="string">"60"</span>,</span><br><span class="line">                        @<span class="string">"id"</span>:@<span class="string">"11101"</span></span><br><span class="line">                        &#125;;</span><br><span class="line">        </span><br><span class="line">Person * p2 = [[Person alloc] <span class="string">initWithDict:</span>dict];</span><br><span class="line"></span><br><span class="line">NSLog(@<span class="string">"height = %d weight = %d id = %@"</span>,[[p2 <span class="string">valueForKey:</span>@<span class="string">"height"</span>] intValue],[[p2 <span class="string">valueForKey:</span>@<span class="string">"weight"</span>] intValue],[p2 <span class="string">valueForKey:</span>@<span class="string">"id"</span>]);</span><br><span class="line"></span><br><span class="line">log日志：height = <span class="number">160</span> weight = <span class="number">60</span> id = <span class="number">11101</span></span><br><span class="line">所有的属性都可以赋值成功</span><br></pre></td></tr></table></figure>
+<h3 id="KVC查找属性的顺序">KVC查找属性的顺序</h3><ol>
+<li>用@property定义的属性的key值</li>
+<li>setter方法的key值</li>
+<li>直接访问成员变量，先找key，如果找不到，再找_key</li>
+<li>以上三种都未找到就会调用- (void)setValue:(id)value forUndefinedKey:(NSString *)key 方法。</li>
+<li>如果没有重写setValue:forUndefinedKey程序会马上崩溃。</li>
+</ol>
+<p>注意：KVC可以访问成员变量，无论是否提供getter/setter方法,无论可见性是怎样，是否有readonly修饰。</p>
+<h3 id="setValue:forUndefinedKey与valueForUndefinedKey的应用">setValue:forUndefinedKey与valueForUndefinedKey的应用</h3><p>KVC的主要用途无非是ORM映射,就是将dictionary转换成model,但有些服务器返回的字段有可能是oc的关键字比如‘id’,’description’等。如上代码举得id的例子，我们无法让@property后面key值为id,于是使用大写的ID代替，KVC是区分大小写的我们不用担心。这时我们只需在setValue:forUndefinedKey把id的key值赋值给ID的key值，就可以避免关键字的尴尬。</p>
+<h3 id="KVC的逆向使用">KVC的逆向使用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Person * p1 = [[Person alloc]init];</span><br><span class="line">[p1 <span class="built_in">set</span>Value:@<span class="string">"170"</span> <span class="keyword">for</span>Key:@<span class="string">"height"</span>];</span><br><span class="line">[p1 <span class="built_in">set</span>Value:@<span class="string">"70"</span> <span class="keyword">for</span>Key:@<span class="string">"weight"</span>];</span><br><span class="line">[p1 <span class="built_in">set</span>Value:@<span class="string">"11111"</span> <span class="keyword">for</span>Key:@<span class="string">"id"</span>];</span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">NSArray * arr = @[@<span class="string">"height"</span>,@<span class="string">"weight"</span>,@<span class="string">"id"</span>];</span><br><span class="line">NSDictionary * dict = [p1 dictionaryWithValuesForKeys:arr];</span><br><span class="line">NSLog(@<span class="string">"%@"</span>,dict);</span><br><span class="line"></span><br><span class="line"><span class="built_in">log</span>日志：</span><br><span class="line">&#123;</span><br><span class="line">    height = <span class="number">170</span>;</span><br><span class="line">    id = <span class="number">11111</span>;</span><br><span class="line">    weight = <span class="number">70</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="NSArray／NSSet等都支持KVC">NSArray／NSSet等都支持KVC</h3><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Person * <span class="variable">p1 =</span> [[Person alloc]init];</span><br><span class="line">Dog * <span class="variable">d1 =</span> [[Dog alloc] init];</span><br><span class="line">d1.<span class="variable">name =</span> @<span class="string">"iPhone"</span>;</span><br><span class="line">p1.<span class="variable">dog =</span> d1;</span><br><span class="line">        </span><br><span class="line">Person * <span class="variable">p2 =</span> [[Person alloc]init];</span><br><span class="line">Dog * <span class="variable">d2 =</span> [[Dog alloc] init];</span><br><span class="line">d2.<span class="variable">name =</span> @<span class="string">"ios"</span>;</span><br><span class="line">p2.<span class="variable">dog =</span> d2;</span><br><span class="line"></span><br><span class="line">NSArray *<span class="variable">persons=</span>@[p1,p2];</span><br><span class="line">   </span><br><span class="line">NSArray *<span class="variable">arrayM=</span>[persons valueForKeyPath:@<span class="string">"dog.name"</span>];</span><br><span class="line">NSLog(@<span class="string">"%@"</span>,arrayM);</span><br><span class="line"></span><br><span class="line">log日志：</span><br><span class="line">(</span><br><span class="line">    iPhone,</span><br><span class="line">    ios</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="KVC计算">KVC计算</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Person * person = [[Person alloc] init];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSMutableArray</span> * books = [<span class="built_in">NSMutableArray</span> array];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">    Book * book = [[Book alloc] init];</span><br><span class="line">    book<span class="variable">.price</span> = i;</span><br><span class="line">    [books addObject:book];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">person<span class="variable">.books</span> = books;</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSNumber</span> *bookCount = [person valueForKeyPath:<span class="string">@"books.@count"</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"book count :%@"</span>, bookCount);</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSNumber</span> *sum = [person valueForKeyPath:<span class="string">@"books.@sum.price"</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"sum :%@"</span>, sum);</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSNumber</span> *avg = [person valueForKeyPath:<span class="string">@"books.@avg.price"</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"vag :%@"</span>, avg);</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSNumber</span> *min = [person valueForKeyPath:<span class="string">@"books.@min.price"</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"min :%@"</span>, min);</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSNumber</span> *max = [person valueForKeyPath:<span class="string">@"books.@max.price"</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"max :%@"</span>, max);</span><br></pre></td></tr></table></figure>
+<h3 id="KVC底层实现">KVC底层实现</h3><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">比如说如下的一行<span class="type">KVC</span>的代码：</span><br><span class="line"> </span><br><span class="line">[person setValue:@<span class="string">"dahuan"</span> forKey:@<span class="string">"name"</span>];</span><br><span class="line"> </span><br><span class="line">就会被编译器处理成：</span><br><span class="line"> </span><br><span class="line"><span class="type">SEL</span> sel = sel_get_uid (<span class="string">"setValue:forKey:"</span>);</span><br><span class="line"><span class="type">IMP</span> <span class="keyword">method</span> = objc_msg_lookup (person-&gt;isa,sel);</span><br><span class="line"><span class="keyword">method</span>(person, sel, @<span class="string">"dahuan"</span>, @<span class="string">"name"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="KVC与runtime应用">KVC与runtime应用</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">"MyModel.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">&lt;objc/runtime.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MyModel</span></span></span><br><span class="line"> </span><br><span class="line"><span class="comment">//解档</span></span><br><span class="line">- (<span class="keyword">id</span>)initWithCoder:(<span class="built_in">NSCoder</span> *)decoder</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">super</span> init]) &#123;</span><br><span class="line">        <span class="keyword">unsigned</span> <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">//获取类中所有成员变量名</span></span><br><span class="line">        Ivar *ivar = class_copyIvarList([MyModel class], &amp;count);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;count; i++) &#123;</span><br><span class="line">            Ivar iva = ivar[i];</span><br><span class="line">            <span class="keyword">const</span> <span class="keyword">char</span> *name = ivar_getName(iva);</span><br><span class="line">            <span class="built_in">NSString</span> *strName = [<span class="built_in">NSString</span> stringWithUTF8String:name];</span><br><span class="line">            <span class="comment">//进行解档取值</span></span><br><span class="line">            <span class="keyword">id</span> value = [decoder decodeObjectForKey:strName];</span><br><span class="line">            <span class="comment">//利用KVC对属性赋值</span></span><br><span class="line">            [<span class="keyword">self</span> setValue:value forKey:strName];</span><br><span class="line">        &#125;</span><br><span class="line">        free(ivar);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//归档</span></span><br><span class="line">- (<span class="keyword">void</span>)encodeWithCoder:(<span class="built_in">NSCoder</span> *)encoder</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> count;</span><br><span class="line">    Ivar *ivar = class_copyIvarList([MyModel class], &amp;count);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;count; i++) &#123;</span><br><span class="line">        Ivar iv = ivar[i];</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *name = ivar_getName(iv);</span><br><span class="line">        <span class="built_in">NSString</span> *strName = [<span class="built_in">NSString</span> stringWithUTF8String:name];</span><br><span class="line">        <span class="comment">//利用KVC取值</span></span><br><span class="line">        <span class="keyword">id</span> value = [<span class="keyword">self</span> valueForKey:strName];</span><br><span class="line">        [encoder encodeObject:value forKey:strName];</span><br><span class="line">    &#125;</span><br><span class="line">    free(ivar);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>最后附苹果KVC官方文档：</p>
+<p><a href="https://developer.apple.com/library/mac/documentation/General/Conceptual/DevPedia-CocoaCore/KeyValueCoding.html" target="_blank" rel="external">https://developer.apple.com/library/mac/documentation/General/Conceptual/DevPedia-CocoaCore/KeyValueCoding.html</a></p>
+<p>先更新一篇KVC吧,KVO明天写！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://lyjh.net/2015/12/02/iOS设计模式KVC/" data-id="cihoymkt2000of4wqi6yrsuow" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="http://lyjh.net/2015/12/02/iOS设计模式KVC/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/10/10/简历整理/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">iOS面试题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="2015/12/02/iOS设计模式KVC/" data-title="iOS设计模式 —— KVC" data-url="http://lyjh.net/2015/12/02/iOS设计模式KVC/"></div>
+  </section>
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Git使用教程/">Git使用教程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS教程/">iOS教程</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS面试题/">iOS面试题</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术文章/">技术文章</a><span class="category-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-Bluetooth/">Core Bluetooth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreAnimation/">CoreAnimation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreLocation/">CoreLocation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Masonry/">Masonry</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIKit/">UIKit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIWebView/">UIWebView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/URL-Scheme/">URL Scheme</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/神器/">神器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Core-Bluetooth/" style="font-size: 10px;">Core Bluetooth</a><a href="/tags/CoreAnimation/" style="font-size: 10px;">CoreAnimation</a><a href="/tags/CoreLocation/" style="font-size: 10px;">CoreLocation</a><a href="/tags/Masonry/" style="font-size: 10px;">Masonry</a><a href="/tags/UIKit/" style="font-size: 10px;">UIKit</a><a href="/tags/UIWebView/" style="font-size: 10px;">UIWebView</a><a href="/tags/URL-Scheme/" style="font-size: 10px;">URL Scheme</a><a href="/tags/动画/" style="font-size: 10px;">动画</a><a href="/tags/教程/" style="font-size: 20px;">教程</a><a href="/tags/神器/" style="font-size: 15px;">神器</a><a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a><a href="/tags/面试题/" style="font-size: 10px;">面试题</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/12/02/iOS设计模式KVC/">iOS设计模式 —— KVC</a>
+          </li>
+        
+          <li>
+            <a href="/2015/10/10/简历整理/">iOS面试题</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/27/iOS多线程GCD详解/">iOS多线程GCD详解</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/18/UISearchController详解/">UISearchController详解</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/06/Git使用教程/">Git使用教程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://weibo.com/liuyujiahuan" target="_blank">我的微博</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 liuyujiahuan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"lyjh"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+</div>
+</body>
+</html>
