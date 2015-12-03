@@ -74,6 +74,82 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-iOS设计模式KVO" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/12/03/iOS设计模式KVO/" class="article-date">
+  <time datetime="2015-12-03T08:04:55.000Z" itemprop="datePublished">2015-12-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/技术文章/">技术文章</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/03/iOS设计模式KVO/">iOS设计模式 —— KV0</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="刨根问底KVO">刨根问底KVO</h2><p>KVO 全称 Key-Value Observing。中文叫键值观察。KVO其实是一种观察者模式，观察者在键值改变时会得到通知,利用它可以很容易实现视图组件和数据模型的分离，当数据模型的属性值改变之后作为监听器的视图组件就会被激发，激发时就会回调监听器自身。相比Notification，KVO更加的简单直接。</p>
+<p>KVO的操作方法由NSKeyValueCoding提供，而他是NSObject的类别，也就是说ObjC中几乎所有的对象都支持KVO操作。</p>
+<p>KVO的使用也很简单，就是简单的3步。</p>
+<ol>
+<li>注册需要观察的对象的属性addObserver:forKeyPath:options:context:</li>
+<li>实现observeValueForKeyPath:ofObject:change:context:方法，这个方法当观察的属性变化时会自动调用.在这个方法中还通过NSKeyValueObservingOptionNew这个参数要求把新值在dictionary中传递过来。</li>
+<li>取消注册观察removeObserver:forKeyPath:context:</li>
+</ol>
+<p>我们观察下代码实现,探究实现原理：</p>
+<p>Person.h</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Person</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)registerObserver;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">NSInteger</span> age;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>Person.m</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">"Person.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Person</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)registerObserver &#123;</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span> addObserver:<span class="keyword">self</span> forKeyPath:<span class="string">@"age"</span> options:<span class="built_in">NSKeyValueObservingOptionNew</span>|<span class="built_in">NSKeyValueObservingOptionOld</span> context:<span class="literal">nil</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSString</span> *)description &#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@,%ld"</span>,[<span class="keyword">self</span> valueForKey:<span class="string">@"isa"</span>],<span class="keyword">self</span><span class="variable">.age</span>];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)observeValueForKeyPath:(<span class="built_in">NSString</span> *)keyPath ofObject:(<span class="keyword">id</span>)object change:(<span class="built_in">NSDictionary</span>&lt;<span class="built_in">NSString</span> *,<span class="keyword">id</span>&gt; *)change context:(<span class="keyword">void</span> *)context &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> ([keyPath isEqualToString:<span class="string">@"age"</span>]) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,change);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        [<span class="keyword">super</span> observeValueForKeyPath:keyPath ofObject:object change:change context:context];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)dealloc &#123;</span><br><span class="line">    [<span class="keyword">self</span> removeObserver:<span class="keyword">self</span> forKeyPath:<span class="string">@"age"</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>main函数</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Person * <span class="variable">p =</span> [[Person alloc] init];</span><br><span class="line">p.<span class="variable">age =</span> <span class="number">20</span>;</span><br><span class="line">NSLog(@<span class="string">"%@"</span>,p);</span><br><span class="line"></span><br><span class="line">[p registerObserver];</span><br><span class="line"></span><br><span class="line">p.<span class="variable">age =</span> <span class="number">30</span>;</span><br><span class="line">NSLog(@<span class="string">"%@"</span>,p);</span><br></pre></td></tr></table></figure>
+<p>运行程序打印出的log日志为：</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Person,<span class="number">20</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="variable">kind =</span> <span class="number">1</span>;</span><br><span class="line">    <span class="variable">new =</span> <span class="number">30</span>;</span><br><span class="line">    <span class="variable">old =</span> <span class="number">20</span>;</span><br><span class="line">&#125;</span><br><span class="line">NSKVONotifying_Person,<span class="number">30</span></span><br></pre></td></tr></table></figure>
+<p>不要太惊讶，我们慢慢解释。</p>
+<p>我重写的<code>Person</code>类的<code>description</code>方法，使用KVC拿到<code>isa</code>指针，获取到self的类名，我们发现在使用KVO之前类名是<code>Person</code>,但注册了KVO之后，类名变成了<code>NSKVONotifying_Person</code>。</p>
+<p>主要是因为KVO的实现使用了<code>isa-swizzling</code>。在程序运行时<code>Person</code>会生成一个派生类<code>NSKVONotifying_Person</code>，在这个派生类中重写基类中任何被观察属性的<code>setter</code>方法，用来欺骗系统顶替原先的类。在<code>setter</code>方法中实现真正的通知机制.</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//可以到伪代码</span></span><br><span class="line"></span><br><span class="line">- (<span class="typename">void</span>)<span class="string">setAge:</span>(<span class="typename">int</span>)age</span><br><span class="line">&#123;</span><br><span class="line">	[<span class="keyword">super</span> <span class="string">setAge:</span>age];</span><br><span class="line"> 	[监听器 <span class="string">observeValueForKeyPath:</span>@<span class="string">"age"</span> <span class="string">ofObject:</span>self  <span class="string">change:</span>@&#123;&#125;  <span class="string">context:</span>nil];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们又可以猜测，使用KVO，内部一定执行setter方法。</p>
+<p>当我们把上面代码 <code>p.age = 30;</code>改成<code>p-&gt;_age = 30;</code></p>
+<p>你会发现KVO的方法不走了，也证实了这点。</p>
+<p>如果p不提供setAge，getAge方法，还想用KVO.</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[p <span class="string">willChangeValueForKey:</span>@<span class="string">"age"</span>];</span><br><span class="line">p-&gt;_age = <span class="number">30</span>;</span><br><span class="line">[p <span class="string">didChangeValueForKey:</span>@<span class="string">"age"</span>];</span><br></pre></td></tr></table></figure>
+<p>苹果官方KVO文档：</p>
+<p><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html" target="_blank" rel="external">https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://lyjh.net/2015/12/03/iOS设计模式KVO/" data-id="cihpmvh7d000oq0wqplupwp63" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="http://lyjh.net/2015/12/03/iOS设计模式KVO/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-iOS设计模式KVC" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/12/02/iOS设计模式KVC/" class="article-date">
@@ -133,7 +209,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/12/02/iOS设计模式KVC/" data-id="cihoymkt2000of4wqi6yrsuow" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/12/02/iOS设计模式KVC/" data-id="cihpmvh7g000sq0wqr4mp9hpl" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -311,7 +387,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/10/10/简历整理/" data-id="cihoymksv000bf4wqmfadf4r2" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/10/10/简历整理/" data-id="cihpmvh73000bq0wq99rw2w38" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -398,7 +474,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/09/27/iOS多线程GCD详解/" data-id="cihoymkt6000sf4wq25n3vddv" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/09/27/iOS多线程GCD详解/" data-id="cihpmvh7l000vq0wq3xnqau56" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -463,7 +539,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/09/18/UISearchController详解/" data-id="cihoymktp001gf4wqbogm88wv" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/09/18/UISearchController详解/" data-id="cihpmvh85001jq0wqu7f50pem" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -563,7 +639,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/09/06/Git使用教程/" data-id="cihoymktv001nf4wq0pzzm5po" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/09/06/Git使用教程/" data-id="cihpmvh89001qq0wqzvja2v95" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -613,7 +689,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/09/01/课程demo/" data-id="cihoymksj0001f4wqtjihzcpi" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/09/01/课程demo/" data-id="cihpmvh6t0001q0wqlzkt0152" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -684,7 +760,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/04/06/聊聊UIWebView/" data-id="cihoymkss0006f4wqytjcbw9o" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/04/06/聊聊UIWebView/" data-id="cihpmvh700006q0wq274hpnhe" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -742,7 +818,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/03/12/iOS Core Bluetooth/" data-id="cihoymkth0015f4wqef8w4qf7" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/03/12/iOS Core Bluetooth/" data-id="cihpmvh7v0018q0wqm3rl0abv" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -804,7 +880,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://lyjh.net/2015/02/10/关于backBarButtonItem的N种方法/" data-id="cihoymksz000kf4wqtm1hnjic" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://lyjh.net/2015/02/10/关于backBarButtonItem的N种方法/" data-id="cihpmvh78000kq0wqkg7p5pxq" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -813,61 +889,6 @@
 
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UIKit/">UIKit</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Masonry" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/01/01/Masonry/" class="article-date">
-  <time datetime="2015-01-01T15:44:55.000Z" itemprop="datePublished">2015-01-01</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/技术文章/">技术文章</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/01/01/Masonry/">Masonry</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>iPhone6,6Plus的出现，自动布局技术真正引起我们的重视。</p>
-<p>从一开始做iOS开发，只考虑适配4s，直接把坐标，长宽都写成固定值。</p>
-<p>之后考虑适配5s，在界面上设定好一个组件的坐标，其他的控件的位置做一下相对计算就可以。一直没考虑自动适配，用storyboard觉得不灵活，不能复用，而且还死卡。</p>
-<p>之后出了iPhone6，和6Plus不得不重新考虑下适配问题了。用storyboard的autolayout拖了一个半成品，（主要卡在scrollview的约束上）虽然花了时间弄好了，公司的项目时间还比较赶，怕开发中再出什么乱子，于是还是用以前很low的办法，获取屏幕宽高，还是通过计算frame做的。用这种方法做手机开发实际上没什么问题，反正都要把app的方向锁死，如果用苹果的自动适配，横屏过来也能看罢了。</p>
-<p>再后来接触了Masonry，心情豁然开朗了许多。一款用代码写自动布局的三方，好用的飞起来~</p>
-<p>很多大神不愿意用storyboard，有的原因是不习惯，有的是怕和代码时候出现冲突。但在storyboard拖控件，加约束，着实方便快速。我看很多公司用xib，把每个页面分开。每个程序员做自己的模块，很好的解决冲突问题。选择代码还是拖拽约束，团队合作就看公司要求，自己写项目看心情就可以了。</p>
-<p>Masonry约束控件的写法真的很多很随意，记录一下。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个视图</span></span><br><span class="line"></span><br><span class="line"><span class="type">UIView</span> * testView = [[<span class="type">UIView</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">testView.backgroundColor = [<span class="type">UIColor</span> grayColor];</span><br><span class="line">[<span class="keyword">self</span>.view addSubview:testView];</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"><span class="comment">//将testView布满self.view,能完成这个功能的代码实在太多，下面只记录了5种，举一反三，灵活使用吧。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//1.</span></span><br><span class="line"></span><br><span class="line">[testView mas_makeConstraints:^(<span class="type">MASConstraintMaker</span> *make) &#123;</span><br><span class="line">   make.edges.equalTo(<span class="keyword">self</span>.view);</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"><span class="comment">//2.</span></span><br><span class="line"></span><br><span class="line">[testView mas_makeConstraints:^(<span class="type">MASConstraintMaker</span> *make) &#123;</span><br><span class="line">   make.top.and.bottom.<span class="keyword">left</span>.<span class="keyword">right</span>.equalTo(<span class="keyword">self</span>.view);</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"><span class="comment">//3.</span></span><br><span class="line"></span><br><span class="line">[testView mas_makeConstraints:^(<span class="type">MASConstraintMaker</span> *make) &#123;</span><br><span class="line">   make.top.equalTo(<span class="keyword">self</span>.view);</span><br><span class="line">   make.bottom.equalTo(<span class="keyword">self</span>.view);</span><br><span class="line">   make.<span class="keyword">left</span>.equalTo(<span class="keyword">self</span>.view);</span><br><span class="line">   make.<span class="keyword">right</span>.equalTo(<span class="keyword">self</span>.view);</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"><span class="comment">//4.</span></span><br><span class="line"></span><br><span class="line">[testView mas_makeConstraints:^(<span class="type">MASConstraintMaker</span> *make) &#123;</span><br><span class="line">   make.top.equalTo(<span class="keyword">self</span>.view.mas_top);</span><br><span class="line">   make.bottom.equalTo(<span class="keyword">self</span>.view.mas_bottom);</span><br><span class="line">   make.<span class="keyword">left</span>.equalTo(<span class="keyword">self</span>.view.mas_left);</span><br><span class="line">   make.<span class="keyword">right</span>.equalTo(<span class="keyword">self</span>.view.mas_bottom);</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"><span class="comment">//5.</span></span><br><span class="line"></span><br><span class="line">[testView mas_makeConstraints:^(<span class="type">MASConstraintMaker</span> *make) &#123;</span><br><span class="line">   make.top.and.<span class="keyword">left</span>.and.<span class="keyword">right</span>.bottom.equalTo(@<span class="number">0</span>);</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//加边距</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//1.</span></span><br><span class="line"></span><br><span class="line">[testView mas_makeConstraints:^(<span class="type">MASConstraintMaker</span> *make) &#123;</span><br><span class="line">   make.edges.equalTo(<span class="keyword">self</span>.view).with.insets(<span class="type">UIEdgeInsetsMake</span>(<span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>));</span><br><span class="line">&#125;];</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="comment">//2.</span></span><br><span class="line"></span><br><span class="line">[testView mas_makeConstraints:^(<span class="type">MASConstraintMaker</span> *make) &#123;</span><br><span class="line">   make.top.equalTo(<span class="keyword">self</span>.view).with.offset(<span class="number">10</span>);</span><br><span class="line">   make.<span class="keyword">left</span>.equalTo(<span class="keyword">self</span>.view).with.offset(<span class="number">10</span>);</span><br><span class="line">   make.bottom.equalTo(<span class="keyword">self</span>.view).with.offset(-<span class="number">10</span>);</span><br><span class="line">   </span><br><span class="line">   <span class="comment">//注意：这么写也可以</span></span><br><span class="line">   make.<span class="keyword">right</span>.equalTo(<span class="keyword">self</span>.view).with.insets(<span class="type">UIEdgeInsetsMake</span>(<span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>));</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//3.</span></span><br><span class="line"></span><br><span class="line">[testView mas_makeConstraints:^(<span class="type">MASConstraintMaker</span> *make) &#123;</span><br><span class="line">   make.top.equalTo(@<span class="number">10</span>);</span><br><span class="line">   make.<span class="keyword">left</span>.equalTo(@<span class="number">10</span>);</span><br><span class="line">   make.bottom.equalTo(@-<span class="number">10</span>);</span><br><span class="line">   make.<span class="keyword">right</span>.equalTo(@-<span class="number">10</span>);</span><br><span class="line">&#125;];</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">//使用LayoutGuide，是从状态栏以下开始布局，如果加上导航条，就会以导航条以下开始布局。  </span></span><br><span class="line"></span><br><span class="line">[testView mas_makeConstraints:^(<span class="type">MASConstraintMaker</span> *make) &#123;</span><br><span class="line">    <span class="type">UIView</span> *topLayoutGuide = (id)<span class="keyword">self</span>.topLayoutGuide;</span><br><span class="line">    make.top.equalTo(topLayoutGuide.mas_bottom);</span><br><span class="line">    <span class="type">UIView</span> *bottomLayoutGuide = (id)<span class="keyword">self</span>.bottomLayoutGuide;</span><br><span class="line">    make.bottom.equalTo(bottomLayoutGuide.mas_top);</span><br><span class="line">    make.<span class="keyword">left</span>.equalTo(<span class="keyword">self</span>.view);</span><br><span class="line">    make.<span class="keyword">right</span>.equalTo(<span class="keyword">self</span>.view);</span><br><span class="line">     </span><br><span class="line">&#125;];   </span><br><span class="line">    </span><br><span class="line"><span class="comment">//可以设置center,size。</span></span><br><span class="line"></span><br><span class="line">[testView mas_makeConstraints:^(<span class="type">MASConstraintMaker</span> *make) &#123;</span><br><span class="line">   make.center.mas_equalTo(<span class="type">CGPointMake</span>(<span class="number">0</span>, <span class="number">50</span>));</span><br><span class="line">   make.size.mas_equalTo(<span class="type">CGSizeMake</span>(<span class="number">200</span>, <span class="number">100</span>));</span><br><span class="line">&#125;];</span><br><span class="line">    </span><br><span class="line"><span class="comment">//写一个scrollView横滑约束，竖向滑动可直接参考Masonry的官方栗子。</span></span><br><span class="line"></span><br><span class="line"><span class="type">UIView</span> * superview = <span class="keyword">self</span>.view;</span><br><span class="line">     </span><br><span class="line"><span class="comment">//约束scrollView相对于父视图的约束</span></span><br><span class="line">     </span><br><span class="line">[<span class="keyword">self</span>.scrollView mas_makeConstraints:^(<span class="type">MASConstraintMaker</span> *make) &#123;</span><br><span class="line">   make.edges.equalTo(superview);</span><br><span class="line">&#125;];</span><br><span class="line">    </span><br><span class="line"><span class="comment">//创建 contentView</span></span><br><span class="line"><span class="type">UIView</span> * contentView = [[<span class="type">UIView</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">contentView.backgroundColor = [<span class="type">UIColor</span> redColor];</span><br><span class="line">[<span class="keyword">self</span>.scrollView addSubview:contentView];</span><br><span class="line">    </span><br><span class="line"><span class="comment">//约束 contentView</span></span><br><span class="line">[contentView mas_makeConstraints:^(<span class="type">MASConstraintMaker</span> *make) &#123;</span><br><span class="line">   make.edges.equalTo(<span class="keyword">self</span>.scrollView);</span><br><span class="line">   make.height.equalTo(<span class="keyword">self</span>.scrollView);</span><br><span class="line">&#125;];</span><br><span class="line">    </span><br><span class="line">[contentView addSubview:<span class="keyword">self</span>.hotBookView];</span><br><span class="line">[contentView addSubview:<span class="keyword">self</span>.myBookView];</span><br><span class="line">    </span><br><span class="line">[<span class="keyword">self</span>.hotBookView mas_makeConstraints:^(<span class="type">MASConstraintMaker</span> *make) &#123;</span><br><span class="line">   make.top.equalTo(@<span class="number">0</span>);</span><br><span class="line">   make.<span class="keyword">left</span>.equalTo(@<span class="number">0</span>);</span><br><span class="line">   make.width.equalTo(<span class="keyword">self</span>.scrollView.mas_width);</span><br><span class="line">   make.height.equalTo(<span class="keyword">self</span>.scrollView.mas_height);</span><br><span class="line">&#125;];</span><br><span class="line">    </span><br><span class="line">[<span class="keyword">self</span>.myBookView mas_makeConstraints:^(<span class="type">MASConstraintMaker</span> *make) &#123;</span><br><span class="line">   make.<span class="keyword">left</span>.equalTo(<span class="keyword">self</span>.hotBookView.mas_right);</span><br><span class="line">   make.top.equalTo(@<span class="number">0</span>);</span><br><span class="line">   make.width.equalTo(<span class="keyword">self</span>.scrollView.mas_width);</span><br><span class="line">   make.height.equalTo(<span class="keyword">self</span>.scrollView.mas_height);</span><br><span class="line">&#125;];</span><br><span class="line">    </span><br><span class="line">[contentView mas_makeConstraints:^(<span class="type">MASConstraintMaker</span> *make) &#123;</span><br><span class="line">   make.<span class="keyword">right</span>.equalTo(<span class="keyword">self</span>.myBookView.mas_right);</span><br><span class="line">&#125;];</span><br><span class="line">    </span><br><span class="line"><span class="comment">//将view组成数组，也可以约束.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">self</span>.buttonViews = @[ raiseButton, lowerButton, centerButton ];</span><br><span class="line">[<span class="keyword">self</span>.buttonViews updateConstraints:^(<span class="type">MASConstraintMaker</span> *make) &#123;</span><br><span class="line">    make.baseline.equalTo(<span class="keyword">self</span>.mas_centerY).with.offset(<span class="keyword">self</span>.offset);</span><br><span class="line">&#125;];</span><br><span class="line">    </span><br><span class="line"><span class="comment">//将testView,greenView,blueView的高度设成一致</span></span><br><span class="line">[testView mas_makeConstraints:^(<span class="type">MASConstraintMaker</span> *make) &#123;</span><br><span class="line">   make.height.equalTo(@[greenView, blueView]);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://lyjh.net/2015/01/01/Masonry/" data-id="cihoymktr001jf4wqettnostv" class="article-share-link" data-share="baidu">分享到</a>
-      
-
-      
-        <a href="http://lyjh.net/2015/01/01/Masonry/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Masonry/">Masonry</a></li></ul>
 
     </footer>
   </div>
@@ -889,7 +910,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Git使用教程/">Git使用教程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS教程/">iOS教程</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS面试题/">iOS面试题</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术文章/">技术文章</a><span class="category-list-count">10</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Git使用教程/">Git使用教程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS教程/">iOS教程</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS面试题/">iOS面试题</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术文章/">技术文章</a><span class="category-list-count">11</span></li></ul>
     </div>
   </div>
 
@@ -898,7 +919,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-Bluetooth/">Core Bluetooth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreAnimation/">CoreAnimation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreLocation/">CoreLocation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Masonry/">Masonry</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIKit/">UIKit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIWebView/">UIWebView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/URL-Scheme/">URL Scheme</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/神器/">神器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-Bluetooth/">Core Bluetooth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreAnimation/">CoreAnimation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreLocation/">CoreLocation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Masonry/">Masonry</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIKit/">UIKit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIWebView/">UIWebView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/URL-Scheme/">URL Scheme</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/神器/">神器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -907,7 +928,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Core-Bluetooth/" style="font-size: 10px;">Core Bluetooth</a><a href="/tags/CoreAnimation/" style="font-size: 10px;">CoreAnimation</a><a href="/tags/CoreLocation/" style="font-size: 10px;">CoreLocation</a><a href="/tags/Masonry/" style="font-size: 10px;">Masonry</a><a href="/tags/UIKit/" style="font-size: 10px;">UIKit</a><a href="/tags/UIWebView/" style="font-size: 10px;">UIWebView</a><a href="/tags/URL-Scheme/" style="font-size: 10px;">URL Scheme</a><a href="/tags/动画/" style="font-size: 10px;">动画</a><a href="/tags/教程/" style="font-size: 20px;">教程</a><a href="/tags/神器/" style="font-size: 15px;">神器</a><a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a><a href="/tags/面试题/" style="font-size: 10px;">面试题</a>
+      <a href="/tags/Core-Bluetooth/" style="font-size: 10px;">Core Bluetooth</a><a href="/tags/CoreAnimation/" style="font-size: 10px;">CoreAnimation</a><a href="/tags/CoreLocation/" style="font-size: 10px;">CoreLocation</a><a href="/tags/Masonry/" style="font-size: 10px;">Masonry</a><a href="/tags/UIKit/" style="font-size: 10px;">UIKit</a><a href="/tags/UIWebView/" style="font-size: 10px;">UIWebView</a><a href="/tags/URL-Scheme/" style="font-size: 10px;">URL Scheme</a><a href="/tags/动画/" style="font-size: 10px;">动画</a><a href="/tags/教程/" style="font-size: 20px;">教程</a><a href="/tags/神器/" style="font-size: 15px;">神器</a><a href="/tags/设计模式/" style="font-size: 15px;">设计模式</a><a href="/tags/面试题/" style="font-size: 10px;">面试题</a>
     </div>
   </div>
 
@@ -916,7 +937,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -926,6 +947,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2015/12/03/iOS设计模式KVO/">iOS设计模式 —— KV0</a>
+          </li>
         
           <li>
             <a href="/2015/12/02/iOS设计模式KVC/">iOS设计模式 —— KVC</a>
@@ -941,10 +966,6 @@
         
           <li>
             <a href="/2015/09/18/UISearchController详解/">UISearchController详解</a>
-          </li>
-        
-          <li>
-            <a href="/2015/09/06/Git使用教程/">Git使用教程</a>
           </li>
         
       </ul>
